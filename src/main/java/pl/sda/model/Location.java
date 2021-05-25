@@ -2,7 +2,7 @@ package pl.sda.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class LocationModel {
+public class Location {
 
     @CsvBindByName
     private int id;
@@ -20,7 +20,7 @@ public class LocationModel {
     private int encounterChanceEvent;
 
 
-    public LocationModel(int id, String locationName, int monsterChanceEvent, int treasureChanceEvent, int encounterChanceEvent) {
+    public Location(int id, String locationName, int monsterChanceEvent, int treasureChanceEvent, int encounterChanceEvent) {
         this.id = id;
         this.locationName = locationName;
         this.monsterChanceEvent = monsterChanceEvent;

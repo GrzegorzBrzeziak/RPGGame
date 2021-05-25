@@ -1,16 +1,22 @@
 package pl.sda.service;
 
+import pl.sda.model.Encounter;
+import pl.sda.model.Location;
+import pl.sda.model.Monster;
+import pl.sda.model.Treasure;
+
 public interface EventServiceRepo {
 
-    void eventRandomizer();
+    void eventRandomizer(Location location);
 
-    void locationRandomizer();
+    void monsterEvent(Monster monster);
 
-    void monsterRandomizer();
+    void treasureEvent(Treasure treasure);
 
-    void treasureRandomizer();
+    void encounterEvent(Encounter encounter);
 
-    void encounterRandomizer();
+    void monsterAttacksPlayer();
 
+    void PlayerAttacksMonster();
 
 }

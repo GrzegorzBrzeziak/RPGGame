@@ -2,7 +2,7 @@ package pl.sda.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class TreasureModel {
+public class Monster {
     @CsvBindByName
     private int id;
 
@@ -18,6 +18,17 @@ public class TreasureModel {
     @CsvBindByName
     private int armor;
 
+
+    public Monster(int id, String name, int hp, int attack, int armor) {
+        this.id = id;
+        this.name = name;
+        this.hp = hp;
+        this.attack = attack;
+        this.armor = armor;
+    }
+
+    public Monster() {
+    }
 
     public int getId() {
         return id;
