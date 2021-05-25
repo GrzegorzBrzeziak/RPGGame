@@ -9,11 +9,10 @@ public class ConsoleRunner {
         this.view = view;
     }
 
-    public void run() {
-        while(true){
-            if (!view.printAndSelectMenuOption()){
-                view.printMessage("Brak takiej opcji!");
-            }
-        }
+    public void runMenu() {
+
+            view.printAndSelectMenuOption();
     }
+
+
 }

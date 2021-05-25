@@ -24,10 +24,6 @@ public class ConsoleView {
         return false;
     }
 
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
     public static void clearScreen() throws IOException {
         System.out.print("\033[H\033[2J");
         System.out.flush();
