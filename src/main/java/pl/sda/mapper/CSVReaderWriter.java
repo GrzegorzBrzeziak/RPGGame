@@ -10,10 +10,13 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 
 public class CSVReaderWriter {
 
     private static final String LOCATIONS_CSV_FILE_PATH = "./src/main/resources/locations.csv";
+    private List<LocationModel> locationList;
+
 
     public void locationCSVReader() throws IOException {
 
@@ -27,14 +30,8 @@ public class CSVReaderWriter {
 
         while (csvUserIterator.hasNext()) {
             LocationModel locationModel = csvUserIterator.next();
-            System.out.println("Id : " + locationModel.getId());
-            System.out.println("Name : " + locationModel.getLocationName());
-            System.out.println("Monster chance : " + locationModel.getMonsterChanceEvent());
-            System.out.println("Treasure chance : " + locationModel.getTreasureChanceEvent());
-            System.out.println("Encounter chance : " + locationModel.getEncounterChanceEvent());
-            System.out.println("==========================");
+            locationList.add(new LocationModel(locationModel.getId(), locationModel.getLocationName(), locationModel.getMonsterChanceEvent(), locationModel.getTreasureChanceEvent(), locationModel.getEncounterChanceEvent()));
         }
-
 
     }
 

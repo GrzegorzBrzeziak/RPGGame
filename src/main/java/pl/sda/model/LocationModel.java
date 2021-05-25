@@ -20,6 +20,14 @@ public class LocationModel {
     private int encounterChanceEvent;
 
 
+    public LocationModel(int id, String locationName, int monsterChanceEvent, int treasureChanceEvent, int encounterChanceEvent) {
+        this.id = id;
+        this.locationName = locationName;
+        this.monsterChanceEvent = monsterChanceEvent;
+        this.treasureChanceEvent = treasureChanceEvent;
+        this.encounterChanceEvent = encounterChanceEvent;
+    }
+
     public int getId() {
         return id;
     }
