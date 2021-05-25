@@ -21,7 +21,10 @@ public class Controller {
 
         menu.addMenuItem(new MenuItem(
                 "Zacznij grę",
-                gameRunner.runGameLoop()));
+//                gameRunner.runGameLoop()));
+                Menu.DEFAULT_QUIT
+        ));
+
 
 
 //        TODO

@@ -1,0 +1,5 @@
+id,name,monsterChance,treasureChance,encounterChance
+1,Zarośla,40,20,40
+2,Zamek,20,30,50
+3,Polana,60,10,30
+4,Las,80,10,10
