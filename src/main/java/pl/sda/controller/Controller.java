@@ -30,6 +30,12 @@ public class Controller {
 //                Menu.DEFAULT_QUIT
 //        ));
 
+//        TODO
+//        menu.addMenuItem(new MenuItem(
+//                "Zapisz grę",
+//                Menu.DEFAULT_QUIT
+//        ));
+
 
         menu.addMenuItem(new MenuItem(
                 "Koniec",

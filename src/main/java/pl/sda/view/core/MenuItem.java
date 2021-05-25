@@ -8,4 +8,6 @@ public final class MenuItem {
         this.label = label;
         this.action = action;
     }
+
+
 }
