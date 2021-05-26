@@ -18,6 +18,9 @@ public class Treasure {
     @CsvBindByName
     private int armor;
 
+    public Treasure() {
+    }
+
     public Treasure(int id, String name, int hp, int attack, int armor) {
         this.id = id;
         this.name = name;

@@ -8,7 +8,7 @@ import java.util.List;
 public interface EncounterRepo {
     public List<Encounter> ReadEncountersFromCSV();
 
-    public void PrintEncountersList();
+    public void PrintEncountersList(List<Encounter> encountersList);
 
     public Encounter getRandomEncounter(List<Encounter> encountersList);
 }

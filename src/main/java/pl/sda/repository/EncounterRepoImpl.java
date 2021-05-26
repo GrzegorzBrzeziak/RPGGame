@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -16,11 +17,12 @@ import java.util.Random;
 public class EncounterRepoImpl implements EncounterRepo {
 
     private static final String ENCOUNTERS_CSV_FILE_PATH = "./src/main/resources/encounters.csv";
-    private List<Encounter> encountersList;
+
 
     @Override
     public List<Encounter> ReadEncountersFromCSV() {
 
+        List<Encounter> encountersList = new ArrayList<>();
 
         Reader reader = null;
         try {
@@ -45,7 +47,7 @@ public class EncounterRepoImpl implements EncounterRepo {
     }
 
     @Override
-    public void PrintEncountersList() {
+    public void PrintEncountersList(List<Encounter> encountersList) {
         encountersList.forEach(System.out::println);
     }
 

@@ -10,16 +10,18 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 public class TreasureRepoImpl implements TreasureRepo {
     private static final String TREASURES_CSV_FILE_PATH = "./src/main/resources/treasures.csv";
-    private List<Treasure> treasuresList;
+
 
     @Override
     public List<Treasure> ReadTreasuresFromCSV() {
+        List<Treasure> treasuresList = new ArrayList<>();
         Reader reader = null;
         try {
             reader = Files.newBufferedReader(Paths.get(TREASURES_CSV_FILE_PATH));
@@ -43,7 +45,7 @@ public class TreasureRepoImpl implements TreasureRepo {
     }
 
     @Override
-    public void PrintTreasuresList() {
+    public void PrintTreasuresList(List<Treasure> treasuresList) {
         treasuresList.forEach(System.out::println);
 
     }

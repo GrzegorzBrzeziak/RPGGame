@@ -9,13 +9,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class PlayerRepoImpl implements PlayerRepo{
 
     private static final String PLAYER_CSV_FILE_PATH = "./src/main/resources/player.csv";
-    private List<Player> playerList;
+
 
     @Override
     public Player createNewPlayer() {
@@ -24,6 +25,8 @@ public class PlayerRepoImpl implements PlayerRepo{
 
     @Override
     public Player loadPlayer() {
+
+        List<Player> playerList = new ArrayList<>();
         Reader reader = null;
         try {
             reader = Files.newBufferedReader(Paths.get(PLAYER_CSV_FILE_PATH));

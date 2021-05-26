@@ -30,6 +30,9 @@ public class Player {
         this.armor = armor;
     }
 
+    public Player() {
+    }
+
     public Player(int hp, int attack, int armor) {
         this.hp = hp;
         this.attack = attack;

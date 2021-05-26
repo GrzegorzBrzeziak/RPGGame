@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -14,10 +15,11 @@ import java.util.Random;
 public class MonsterRepoImpl implements MonsterRepo{
 
     private static final String MONSTERS_CSV_FILE_PATH = "./src/main/resources/monsters.csv";
-    private List<Monster> monstersList;
 
     @Override
     public List<Monster> ReadMonstersFromCSV() {
+
+        List<Monster> monstersList = new ArrayList<>();
         Reader reader = null;
         try {
             reader = Files.newBufferedReader(Paths.get(MONSTERS_CSV_FILE_PATH));
@@ -40,7 +42,7 @@ public class MonsterRepoImpl implements MonsterRepo{
     }
 
     @Override
-    public void PrintMonstersList() {
+    public void PrintMonstersList(List<Monster> monstersList) {
         monstersList.forEach(System.out::println);
 
     }

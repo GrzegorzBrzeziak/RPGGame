@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -19,13 +20,14 @@ public class LocationRepoImpl implements LocationRepo{
 
     @Override
     public List<Location> ReadLocationsFromCSV() {
-        List<Location> locationList = null;
+        List<Location> locationList = new ArrayList<>();
         Reader reader = null;
         try {
             reader = Files.newBufferedReader(Paths.get(LOCATIONS_CSV_FILE_PATH));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         CsvToBean<Location> csvToBean = new CsvToBeanBuilder(reader)
                 .withType(Location.class)
                 .withIgnoreLeadingWhiteSpace(true)

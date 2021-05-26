@@ -18,6 +18,8 @@ public class Encounter {
     @CsvBindByName
     private int armor;
 
+    public Encounter() {
+    }
 
     public Encounter(int id, String name, int hp, int attack, int armor) {
         this.id = id;

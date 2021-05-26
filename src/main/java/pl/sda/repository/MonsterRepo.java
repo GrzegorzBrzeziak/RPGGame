@@ -8,7 +8,7 @@ import java.util.List;
 public interface MonsterRepo {
     public List<Monster> ReadMonstersFromCSV();
 
-    public void PrintMonstersList();
+    public void PrintMonstersList(List<Monster> monstersList);
 
     public Monster getRandomMonster(List<Monster> monsterList);
 }
