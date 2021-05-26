@@ -6,10 +6,9 @@ public class GameApp {
     private static final Controller controller = new Controller();
 
 
-
     public static void main(String[] args) {
 
-            controller.start();
+        controller.start();
     }
 
 }

@@ -16,17 +16,14 @@ public class Controller {
         runner = new ConsoleRunner(view);
         menu.addMenuItem(new MenuItem(
                 "Zacznij grę",
-                ()->{
+                () -> {
                     gameController.start();
                 }
         ));
 
-
-
-
         menu.addMenuItem(new MenuItem(
                 "Załaduj grę",
-                ()->{
+                () -> {
 
                 }
         ));
@@ -37,13 +34,10 @@ public class Controller {
 //                Menu.DEFAULT_QUIT
 //        ));
 
-
         menu.addMenuItem(new MenuItem(
                 "Koniec",
                 Menu.DEFAULT_QUIT
         ));
-
-
     }
 
     public void start() {

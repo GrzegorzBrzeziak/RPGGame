@@ -30,6 +30,7 @@ public class Location {
         this.encounterChance = encounterChance;
     }
 
+
     public int getId() {
         return id;
     }

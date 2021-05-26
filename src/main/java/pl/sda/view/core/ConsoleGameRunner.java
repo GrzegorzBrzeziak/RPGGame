@@ -13,14 +13,14 @@ public class ConsoleGameRunner {
 
     public void runGameLoop() {
 
-        while(game_runner == true){
-            if (!gameView.printAndSelectGameOption()){
+        while (game_runner == true) {
+            if (!gameView.printAndSelectGameOption()) {
                 gameView.printMessage("Brak takiej opcji!");
             }
         }
     }
 
-    public void closeGameLoop(){
+    public void closeGameLoop() {
         game_runner = false;
     }
 

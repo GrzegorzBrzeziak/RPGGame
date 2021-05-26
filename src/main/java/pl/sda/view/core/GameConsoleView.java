@@ -3,7 +3,7 @@ package pl.sda.view.core;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class GameConsoleView{
+public class GameConsoleView {
     private final Game game;
     private final Scanner scanner;
 
@@ -27,8 +27,6 @@ public class GameConsoleView{
     public void printMessage(String message) {
         System.out.println(message);
     }
-
-
 
 
 }

@@ -9,24 +9,21 @@ import pl.sda.view.core.*;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GameController {
     private GameConsoleView gameView;
     private ConsoleGameRunner gameRunner;
     private final Scanner input = new Scanner(System.in);
-    LocationRepoImpl impl = new LocationRepoImpl();
-    List<Location> locationList = impl.ReadLocationsFromCSV();
-    Location location1 = impl.getRandomLocation(locationList);
-    Location location2 = impl.getRandomLocation(locationList);
-    Location location3 = impl.getRandomLocation(locationList);
-    EventServiceImpl eventService = new EventServiceImpl();
+
 
     public GameController() {
-
-
-
-
-
+        LocationRepoImpl impl = new LocationRepoImpl();
+        List<Location> locationList = impl.ReadLocationsFromCSV();
+        AtomicReference<Location> location1 = new AtomicReference<>(impl.getRandomLocation(locationList));
+        AtomicReference<Location> location2 = new AtomicReference<>(impl.getRandomLocation(locationList));
+        AtomicReference<Location> location3 = new AtomicReference<>(impl.getRandomLocation(locationList));
+        EventServiceImpl eventService = new EventServiceImpl();
         Game game = new Game();
         PlayerRepoImpl playerRepo = new PlayerRepoImpl();
         Player player = playerRepo.createNewPlayer();
@@ -34,25 +31,25 @@ public class GameController {
         gameRunner = new ConsoleGameRunner(gameView);
 
         game.addGameItem(new GameItem(
-                "Idź do: " + location1.getLocationName(),
+                "Idź do: " + location1.get().getLocationName(),
                 () -> {
-                    eventService.eventRandomizer(location1, player);
-                    location1 = impl.getRandomLocation(locationList);
+                    eventService.eventRandomizer(location1.get(), player);
+                    location1.set(impl.getRandomLocation(locationList));
                 }
         ));
         game.addGameItem(new GameItem(
-                "Idź do: " + location2.getLocationName(),
+                "Idź do: " + location2.get().getLocationName(),
                 () -> {
-                    eventService.eventRandomizer(location2, player);
-                    location2 = impl.getRandomLocation(locationList);
+                    eventService.eventRandomizer(location2.get(), player);
+                    location2.set(impl.getRandomLocation(locationList));
                 }
         ));
 
         game.addGameItem(new GameItem(
-                "Idź do: " + location3.getLocationName(),
+                "Idź do: " + location3.get().getLocationName(),
                 () -> {
-                    eventService.eventRandomizer(location3, player);
-                    location3 = impl.getRandomLocation(locationList);
+                    eventService.eventRandomizer(location3.get(), player);
+                    location3.set(impl.getRandomLocation(locationList));
                 }
         ));
 

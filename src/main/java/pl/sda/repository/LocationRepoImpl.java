@@ -3,6 +3,7 @@ package pl.sda.repository;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import pl.sda.model.Location;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -14,11 +15,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class LocationRepoImpl implements LocationRepo{
+public class LocationRepoImpl implements LocationRepo {
 
     private static final String LOCATIONS_CSV_FILE_PATH = "./src/main/resources/locations.csv";
-
-
 
 
     @Override
@@ -58,6 +57,8 @@ public class LocationRepoImpl implements LocationRepo{
 
         int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, locationList.size());
 
-        return locationList.get(boundedRandomValue);
+        Location randomLocation = locationList.get(boundedRandomValue);
+
+        return new Location(randomLocation.getId(), randomLocation.getLocationName(), randomLocation.getMonsterChance(), randomLocation.getTreasureChance(), randomLocation.getEncounterChance());
     }
 }
