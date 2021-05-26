@@ -34,20 +34,20 @@ public class GameController {
         game.addGameItem(new GameItem(
                 "Idź do: " + location1.getLocationName(),
                 () ->{eventService.eventRandomizer(location1, player);
-
+                    location1 = impl.getRandomLocation(locationList);
                 }
         ));
         game.addGameItem(new GameItem(
                 "Idź do: " + location2.getLocationName(),
                 () ->{eventService.eventRandomizer(location2, player);
-
+                    location2 = impl.getRandomLocation(locationList);
                 }
         ));
 
         game.addGameItem(new GameItem(
                 "Idź do: " + location3.getLocationName(),
                 () ->{eventService.eventRandomizer(location3, player);
-
+                    location3 = impl.getRandomLocation(locationList);
                 }
         ));
 

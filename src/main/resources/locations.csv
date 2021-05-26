@@ -3,3 +3,4 @@ id,name,monsterChance,treasureChance,encounterChance
 2,Zamek,20,30,50
 3,Polana,60,10,30
 4,Las,80,10,10
+5,Wioska,10,10,80
