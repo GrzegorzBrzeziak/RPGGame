@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class LocationRepoImpl implements LocationRepo{
 
     private static final String LOCATIONS_CSV_FILE_PATH = "./src/main/resources/locations.csv";
+
 
 
 
@@ -54,10 +56,8 @@ public class LocationRepoImpl implements LocationRepo{
     @Override
     public Location getRandomLocation(List<Location> locationList) {
 
-        Random rand = new Random();
+        int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, locationList.size());
 
-            int randomIndex = rand.nextInt(locationList.size());
-
-        return locationList.get(randomIndex);
+        return locationList.get(boundedRandomValue);
     }
 }

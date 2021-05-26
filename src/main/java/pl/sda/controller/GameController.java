@@ -16,12 +16,17 @@ public class GameController {
     private final Scanner input = new Scanner(System.in);
     LocationRepoImpl impl = new LocationRepoImpl();
     List<Location> locationList = impl.ReadLocationsFromCSV();
-    private Location location1 = impl.getRandomLocation(locationList);
-    private Location location2 = impl.getRandomLocation(locationList);
-    private Location location3 = impl.getRandomLocation(locationList);
+    Location location1 = impl.getRandomLocation(locationList);
+    Location location2 = impl.getRandomLocation(locationList);
+    Location location3 = impl.getRandomLocation(locationList);
     EventServiceImpl eventService = new EventServiceImpl();
 
     public GameController() {
+
+
+
+
+
         Game game = new Game();
         PlayerRepoImpl playerRepo = new PlayerRepoImpl();
         Player player = playerRepo.createNewPlayer();
@@ -56,10 +61,7 @@ public class GameController {
                 () -> {
                     gameRunner.closeGameLoop();
                 }
-
-
         ));
-
     }
 
     public void start() {
