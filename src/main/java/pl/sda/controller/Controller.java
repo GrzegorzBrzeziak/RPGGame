@@ -23,11 +23,13 @@ public class Controller {
 
 
 
-//        TODO
-//        menu.addMenuItem(new MenuItem(
-//                "Załaduj grę",
-//                Menu.DEFAULT_QUIT
-//        ));
+
+        menu.addMenuItem(new MenuItem(
+                "Załaduj grę",
+                ()->{
+
+                }
+        ));
 
 //        TODO
 //        menu.addMenuItem(new MenuItem(
@@ -40,7 +42,6 @@ public class Controller {
                 "Koniec",
                 Menu.DEFAULT_QUIT
         ));
-
 
 
     }

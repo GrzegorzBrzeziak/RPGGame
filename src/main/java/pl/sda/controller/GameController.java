@@ -28,32 +28,35 @@ public class GameController {
         gameView = new GameConsoleView(game, System.in);
         gameRunner = new ConsoleGameRunner(gameView);
 
-
-
-
         game.addGameItem(new GameItem(
                 "Idź do: " + location1.getLocationName(),
-                () ->{eventService.eventRandomizer(location1, player);
+                () -> {
+                    eventService.eventRandomizer(location1, player);
                     location1 = impl.getRandomLocation(locationList);
                 }
         ));
         game.addGameItem(new GameItem(
                 "Idź do: " + location2.getLocationName(),
-                () ->{eventService.eventRandomizer(location2, player);
+                () -> {
+                    eventService.eventRandomizer(location2, player);
                     location2 = impl.getRandomLocation(locationList);
                 }
         ));
 
         game.addGameItem(new GameItem(
                 "Idź do: " + location3.getLocationName(),
-                () ->{eventService.eventRandomizer(location3, player);
+                () -> {
+                    eventService.eventRandomizer(location3, player);
                     location3 = impl.getRandomLocation(locationList);
                 }
         ));
 
         game.addGameItem(new GameItem(
                 "Powrót do menu",
-                Menu.DEFAULT_QUIT
+                () -> {
+                    gameRunner.closeGameLoop();
+                }
+
 
         ));
 

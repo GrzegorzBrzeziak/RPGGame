@@ -87,46 +87,5 @@ public class EventServiceImpl implements EventServiceRepo{
 
     }
 
-    @Override
-    public void monsterEvent(Monster monster) {
-
-
-    }
-
-    @Override
-    public void treasureEvent(Treasure treasure) {
-
-
-    }
-
-    @Override
-    public void encounterEvent(Encounter encounter) {
-
-
-    }
-
-    @Override
-    public Player monsterAttacksPlayer(Player player, Monster monster) {
-        int playerHp = player.getHp();
-        int playerArmor = player.getArmor();
-        int monsterAttack = monster.getAttack();
-        int newPlayerHp = playerHp - (monsterAttack - playerArmor);
-        player.setHp(newPlayerHp);
-        return player;
-    }
-
-    @Override
-    public Monster playerAttacksMonster(Player player, Monster monster) {
-
-        int monsterHp = monster.getHp();
-        int monsterArmor = monster.getArmor();
-        int playerAttack = player.getAttack();
-        int newMonsterHp = monsterHp - (playerAttack - monsterArmor);
-        monster.setHp(newMonsterHp);
-        return monster;
-
-
-    }
-
 
 }

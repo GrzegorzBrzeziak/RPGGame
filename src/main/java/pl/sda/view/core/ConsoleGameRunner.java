@@ -4,6 +4,7 @@ public class ConsoleGameRunner {
 
 
     private final GameConsoleView gameView;
+    private boolean game_runner = true;
 
 
     public ConsoleGameRunner(GameConsoleView gameView) {
@@ -12,10 +13,15 @@ public class ConsoleGameRunner {
 
     public void runGameLoop() {
 
-        while(true){
+        while(game_runner == true){
             if (!gameView.printAndSelectGameOption()){
                 gameView.printMessage("Brak takiej opcji!");
             }
         }
     }
+
+    public void closeGameLoop(){
+        game_runner = false;
+    }
+
 }

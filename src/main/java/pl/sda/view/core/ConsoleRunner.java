@@ -11,7 +11,14 @@ public class ConsoleRunner {
 
     public void runMenu() {
 
-            view.printAndSelectMenuOption();
+
+        while(true){
+            if (!view.printAndSelectMenuOption()){
+                view.printMessage("Brak takiej opcji!");
+            }
+        }
+
+
     }
 
 
