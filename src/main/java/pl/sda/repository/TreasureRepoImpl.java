@@ -3,6 +3,7 @@ package pl.sda.repository;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import pl.sda.model.Encounter;
+import pl.sda.model.Player;
 import pl.sda.model.Treasure;
 
 import java.io.IOException;

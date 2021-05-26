@@ -4,28 +4,30 @@ import com.opencsv.bean.CsvBindByName;
 
 public class Location {
 
-    @CsvBindByName
+    @CsvBindByName(column = "id", required = true)
     private int id;
 
     @CsvBindByName(column = "name", required = true)
     private String locationName;
 
     @CsvBindByName(column = "monsterChance", required = true)
-    private int monsterChanceEvent;
+    private int monsterChance;
 
     @CsvBindByName(column = "treasureChance", required = true)
-    private int treasureChanceEvent;
+    private int treasureChance;
 
     @CsvBindByName(column = "encounterChance", required = true)
-    private int encounterChanceEvent;
+    private int encounterChance;
 
+    public Location() {
+    }
 
-    public Location(int id, String locationName, int monsterChanceEvent, int treasureChanceEvent, int encounterChanceEvent) {
+    public Location(int id, String locationName, int monsterChance, int treasureChance, int encounterChance) {
         this.id = id;
         this.locationName = locationName;
-        this.monsterChanceEvent = monsterChanceEvent;
-        this.treasureChanceEvent = treasureChanceEvent;
-        this.encounterChanceEvent = encounterChanceEvent;
+        this.monsterChance = monsterChance;
+        this.treasureChance = treasureChance;
+        this.encounterChance = encounterChance;
     }
 
     public int getId() {
@@ -44,27 +46,27 @@ public class Location {
         this.locationName = locationName;
     }
 
-    public int getMonsterChanceEvent() {
-        return monsterChanceEvent;
+    public int getMonsterChance() {
+        return monsterChance;
     }
 
-    public void setMonsterChanceEvent(int monsterChanceEvent) {
-        this.monsterChanceEvent = monsterChanceEvent;
+    public void setMonsterChance(int monsterChance) {
+        this.monsterChance = monsterChance;
     }
 
-    public int getTreasureChanceEvent() {
-        return treasureChanceEvent;
+    public int getTreasureChance() {
+        return treasureChance;
     }
 
-    public void setTreasureChanceEvent(int treasureChanceEvent) {
-        this.treasureChanceEvent = treasureChanceEvent;
+    public void setTreasureChance(int treasureChance) {
+        this.treasureChance = treasureChance;
     }
 
-    public int getEncounterChanceEvent() {
-        return encounterChanceEvent;
+    public int getEncounterChance() {
+        return encounterChance;
     }
 
-    public void setEncounterChanceEvent(int encounterChanceEvent) {
-        this.encounterChanceEvent = encounterChanceEvent;
+    public void setEncounterChance(int encounterChance) {
+        this.encounterChance = encounterChance;
     }
 }

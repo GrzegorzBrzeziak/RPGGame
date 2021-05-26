@@ -35,7 +35,5 @@ public class Player {
         this.attack = attack;
         this.armor = armor;
 
-
-
     }
 }

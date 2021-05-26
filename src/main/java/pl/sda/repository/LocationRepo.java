@@ -8,8 +8,8 @@ public interface LocationRepo {
 
     public List<Location> ReadLocationsFromCSV();
 
-    public void PrintLocationList();
+    public void PrintLocationList(List<Location> locationList);
 
-    public Location getRandomLocation();
+    public Location getRandomLocation(List<Location> locationList);
 
 }

@@ -12,10 +12,7 @@ import java.util.Random;
 public class EventServiceImpl implements EventServiceRepo{
 
 
-    LocationRepoImpl impl = new LocationRepoImpl();
-    private final Location location1 = impl.getRandomLocation();
-    private final Location location2 = impl.getRandomLocation();
-    private final Location location3 = impl.getRandomLocation();
+
     MonsterRepoImpl monsterRepo = new MonsterRepoImpl();
     TreasureRepoImpl treasureRepo = new TreasureRepoImpl();
     EncounterRepoImpl encounterRepo = new EncounterRepoImpl();
@@ -28,7 +25,7 @@ public class EventServiceImpl implements EventServiceRepo{
 
         int random_integer = rand.nextInt(100);
 
-        if (random_integer <= location.getMonsterChanceEvent()){
+        if (random_integer <= location.getMonsterChance()){
 
             System.out.println("MonsterEvent");
             List<Monster> monsterList = monsterRepo.ReadMonstersFromCSV();
@@ -36,7 +33,7 @@ public class EventServiceImpl implements EventServiceRepo{
             System.out.println("Atakuje Ciebie Potwór: " + monster.getName());
 
 
-        } else if (random_integer > location.getMonsterChanceEvent() && random_integer <= (location.getMonsterChanceEvent() + location.getTreasureChanceEvent())){
+        } else if (random_integer > location.getMonsterChance() && random_integer <= (location.getMonsterChance() + location.getTreasureChance())){
 
             System.out.println("TreasureEvent");
             List<Treasure> treasureList = treasureRepo.ReadTreasuresFromCSV();
