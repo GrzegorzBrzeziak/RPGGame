@@ -1,5 +1,7 @@
 package pl.sda.view.core;
 
+import pl.sda.model.Player;
+
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -8,10 +10,14 @@ public class GameConsoleView {
     private final Scanner scanner;
 
 
+
     public GameConsoleView(Game game, InputStream inputStream) {
         this.game = game;
         this.scanner = new Scanner(inputStream);
     }
+
+
+
 
     public boolean printAndSelectGameOption() {
         game.print();
@@ -27,6 +33,8 @@ public class GameConsoleView {
     public void printMessage(String message) {
         System.out.println(message);
     }
+
+
 
 
 }

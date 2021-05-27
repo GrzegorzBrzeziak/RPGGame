@@ -2,6 +2,9 @@ package pl.sda.service;
 
 import pl.sda.model.*;
 import pl.sda.repository.*;
+import pl.sda.view.core.GameConsoleView;
+import pl.sda.view.core.GameViewService;
+
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -13,6 +16,7 @@ public class EventServiceImpl implements EventServiceRepo{
     MonsterRepoImpl monsterRepo = new MonsterRepoImpl();
     TreasureRepoImpl treasureRepo = new TreasureRepoImpl();
     EncounterRepoImpl encounterRepo = new EncounterRepoImpl();
+    private GameViewService gameViewService = new GameViewService();
 
 
 
@@ -28,19 +32,24 @@ public class EventServiceImpl implements EventServiceRepo{
             System.out.println("MonsterEvent");
             List<Monster> monsterList = monsterRepo.ReadMonstersFromCSV();
             Monster monster = monsterRepo.getRandomMonster(monsterList);
-            System.out.println("Atakuje Ciebie Potwór: " + monster.getName());
+            gameViewService.printAttackingMonsterName(monster);
 
             while (player.getHp() > 0 && monster.getHp()> 0){
                 monster.setHp(monster.getHp() - (player.getAttack() - monster.getArmor()));
-                System.out.println("Potwór: " + monster.getName() + " ma " + monster.getHp() + "HP");
+                gameViewService.printMonsterHp(monster);
                 player.setHp(player.getHp() -(monster.getAttack() - player.getArmor()));
-                System.out.println("Gracz ma: " + player.getHp() + " HP");
+                gameViewService.printPlayerHp(player);
             }
             if (monster.getHp() > player.getHp() || player.getHp() <= 0){
-                System.out.println("przegrałeś");
+                gameViewService.youLose();
+                player.setHp(100);
+                player.setAttack(10);
+                player.setArmor(0);
+                PlayerRepoImpl playerRepo = new PlayerRepoImpl();
+                playerRepo.savePlayer(player);
                 System.exit(1);
             }
-            System.out.println("Masz teraz: " + player.getHp() + " HP, " + player.getAttack() + " ataku, " + player.getArmor() + " pancerza.");
+            gameViewService.printPlayerStats(player);
 
 
 
@@ -49,40 +58,40 @@ public class EventServiceImpl implements EventServiceRepo{
             System.out.println("TreasureEvent");
             List<Treasure> treasureList = treasureRepo.ReadTreasuresFromCSV();
             Treasure treasure = treasureRepo.getRandomTreasure(treasureList);
-            System.out.println("Znajdujesz skarb: " + treasure.getName());
+            gameViewService.printFoundTreasure(treasure);
             if(treasure.getHp() != 0) {
-                System.out.println("Zdobywasz: " + treasure.getHp() + " HP");
+                gameViewService.printFoundTreasureGetHp(treasure);
                 player.setHp(player.getHp() + treasure.getHp());
             }
             if(treasure.getAttack() != 0) {
-                System.out.println("Zdobywasz: " + treasure.getArmor() + " pancerza");
+                gameViewService.printFoundTreasureGetAttack(treasure);
                 player.setArmor(player.getArmor() + treasure.getArmor());
             }
             if (treasure.getAttack() != 0) {
-                System.out.println("Zdobywasz: " + treasure.getAttack() + " ataku");
+                gameViewService.printFoundTreasureGetArmor(treasure);
                 player.setAttack(player.getAttack() + treasure.getAttack());
             }
-            System.out.println("Masz teraz: " + player.getHp() + " HP, " + player.getAttack() + " ataku, " + player.getArmor() + " pancerza.");
+            gameViewService.printPlayerStats(player);
 
         } else {
 
             System.out.println("EncounterEvent");
             List<Encounter> encounterList = encounterRepo.ReadEncountersFromCSV();
             Encounter encounter = encounterRepo.getRandomEncounter(encounterList);
-            System.out.println("Spotykasz się z: " + encounter.getName() + "em");
+            gameViewService.printEncounterName(encounter);
             if(encounter.getHp() != 0) {
-                System.out.println("Masz: " + encounter.getHp() + " do HP");
+                gameViewService.printEncounterGetHp(encounter);
                 player.setHp(player.getHp() + encounter.getHp());
             }
             if(encounter.getAttack() != 0) {
-                System.out.println("Masz: " + encounter.getArmor() + " do pancerza");
+                gameViewService.printEncounterGetArmor(encounter);
                 player.setArmor(player.getArmor() + encounter.getArmor());
             }
             if (encounter.getAttack() != 0) {
-                System.out.println("Masz: " + encounter.getAttack() + " do ataku");
+                gameViewService.printEncounterGetAttack(encounter);
                 player.setAttack(player.getAttack() + encounter.getAttack());
             }
-            System.out.println("Masz teraz: " + player.getHp() + " HP, " + player.getAttack() + " ataku, " + player.getArmor() + " pancerza.");
+            gameViewService.printPlayerStats(player);
 
         }
 
