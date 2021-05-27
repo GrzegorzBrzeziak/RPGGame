@@ -35,7 +35,7 @@ public class MonsterRepoImpl implements MonsterRepo{
 
         while (csvUserIterator.hasNext()) {
             Monster monster = csvUserIterator.next();
-            monstersList.add(new Monster(monster.getId(), monster.getName(), monster.getHp(), monster.getAttack(), monster.getArmor()));
+            monstersList.add(new Monster(monster.getId(), monster.getName(), monster.getHp(), monster.getMinAttack(), monster.getMaxAttack(), monster.getArmor()));
         }
 
         return monstersList;

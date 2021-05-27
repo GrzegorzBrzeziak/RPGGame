@@ -35,15 +35,20 @@ public class EventServiceImpl implements EventServiceRepo{
             gameViewService.printAttackingMonsterName(monster);
 
             while (player.getHp() > 0 && monster.getHp()> 0){
-                monster.setHp(monster.getHp() - (player.getAttack() - monster.getArmor()));
+                int randomizedPlayerDmg = getRandomDamageValue(player.getMinAttack(), player.getMaxAttack());
+                gameViewService.printPlayerAttack(randomizedPlayerDmg);
+                monster.setHp(monster.getHp() - (randomizedPlayerDmg - monster.getArmor()));
                 gameViewService.printMonsterHp(monster);
-                player.setHp(player.getHp() -(monster.getAttack() - player.getArmor()));
+                int randomizedMonsterDmg = getRandomDamageValue(monster.getMinAttack(), monster.getMaxAttack());
+                gameViewService.printMonsterAttack(monster, randomizedMonsterDmg);
+                player.setHp(player.getHp() - (randomizedMonsterDmg - player.getArmor()));
                 gameViewService.printPlayerHp(player);
             }
             if (monster.getHp() > player.getHp() || player.getHp() <= 0){
                 gameViewService.youLose();
                 player.setHp(100);
-                player.setAttack(10);
+                player.setMinAttack(2);
+                player.setMaxAttack(3);
                 player.setArmor(0);
                 player.setMaxHp(100);
                 PlayerRepoImpl playerRepo = new PlayerRepoImpl();
@@ -62,7 +67,11 @@ public class EventServiceImpl implements EventServiceRepo{
             gameViewService.printFoundTreasure(treasure);
             if(treasure.getHp() != 0) {
                 gameViewService.printFoundTreasureGetHp(treasure);
-                player.setHp(player.getHp() + treasure.getHp());
+                if (player.getHp() + treasure.getHp() >= player.getMaxHp()){
+                    player.setHp(player.getMaxHp());
+                }else {
+                    player.setHp(player.getHp() + treasure.getHp());
+                }
             }
             if(treasure.getArmor() != 0) {
                 gameViewService.printFoundTreasureGetArmor(treasure);
@@ -70,11 +79,12 @@ public class EventServiceImpl implements EventServiceRepo{
             }
             if (treasure.getAttack() != 0) {
                 gameViewService.printFoundTreasureGetAttack(treasure);
-                player.setAttack(player.getAttack() + treasure.getAttack());
+                player.setMinAttack(player.getMinAttack() + treasure.getAttack());
+                player.setMaxAttack(player.getMaxAttack() + treasure.getAttack());
             }
             if (treasure.getMaxhp() != 0) {
                 gameViewService.printFoundTreasureGetMaxHP(treasure);
-                player.setAttack(player.getMaxHp() + treasure.getMaxhp());
+                player.setMaxHp(player.getMaxHp() + treasure.getMaxhp());
             }
             gameViewService.printPlayerStats(player);
 
@@ -102,7 +112,8 @@ public class EventServiceImpl implements EventServiceRepo{
             }
             if (encounter.getAttack() != 0) {
                 gameViewService.printEncounterGetAttack(encounter);
-                player.setAttack(player.getAttack() + encounter.getAttack());
+                player.setMinAttack(player.getMinAttack() + encounter.getAttack());
+                player.setMaxAttack(player.getMaxAttack() + encounter.getAttack());
             }
             gameViewService.printPlayerStats(player);
 
@@ -115,6 +126,13 @@ public class EventServiceImpl implements EventServiceRepo{
         int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, 100);
         return boundedRandomValue;
     }
+
+    @Override
+    public int getRandomDamageValue(int dmgMin, int dmgMax ) {
+        int boundedRandomValue = ThreadLocalRandom.current().nextInt(dmgMin, dmgMax);
+        return boundedRandomValue;
+    }
+
 
 
 }

@@ -13,19 +13,24 @@ public class Monster {
     private int hp;
 
     @CsvBindByName
-    private int attack;
+    private int minAttack;
+
+    @CsvBindByName
+    private int maxAttack;
 
     @CsvBindByName
     private int armor;
 
 
-    public Monster(int id, String name, int hp, int attack, int armor) {
+    public Monster(int id, String name, int hp, int minAttack, int maxAttack, int armor) {
         this.id = id;
         this.name = name;
         this.hp = hp;
-        this.attack = attack;
+        this.minAttack = minAttack;
+        this.maxAttack = maxAttack;
         this.armor = armor;
     }
+
 
     public Monster() {
     }
@@ -54,12 +59,20 @@ public class Monster {
         this.hp = hp;
     }
 
-    public int getAttack() {
-        return attack;
+    public int getMinAttack() {
+        return minAttack;
     }
 
-    public void setAttack(int attack) {
-        this.attack = attack;
+    public void setMinAttack(int minAttack) {
+        this.minAttack = minAttack;
+    }
+
+    public int getMaxAttack() {
+        return maxAttack;
+    }
+
+    public void setMaxAttack(int maxAttack) {
+        this.maxAttack = maxAttack;
     }
 
     public int getArmor() {

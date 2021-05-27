@@ -12,7 +12,7 @@ public class GameViewService {
     }
 
     public void printPlayerStats(Player player){
-        System.out.println("Masz teraz: " + player.getHp() + " HP, " + player.getAttack() + " ataku, " + player.getArmor() + " pancerza, " + player.getMaxHp() + " maksymalnego HP.");
+        System.out.println("Masz teraz: " + player.getHp() + " HP, " + player.getMinAttack() + " - " + player.getMaxAttack() + " ataku, " + player.getArmor() + " pancerza, " + player.getMaxHp() + " maksymalnego HP.");
 
     }
 
@@ -25,14 +25,20 @@ public class GameViewService {
     }
 
     public void printMonsterHp(Monster monster){
-        System.out.println("Potwór: " + monster.getName() + " ma " + monster.getHp() + "HP");
+        System.out.println("Potwór: " + monster.getName() + " ma " + monster.getHp() + " HP");
     }
 
+    public void printMonsterAttack(Monster monster, int monsterDmg){
+        System.out.println("Potwór: " + monster.getName() + " atakuje Ciebie za " + monsterDmg + " DMG.");
+    }
+
+    public void printPlayerAttack(int playerDmg){
+        System.out.println("Atakujesz potwora za: " + playerDmg + " DMG.");
+    }
 
     public void printAttackingMonsterName(Monster monster){
         System.out.println("Atakuje Ciebie Potwór: " + monster.getName());
     }
-
 
     public void printFoundTreasure(Treasure treasure){
         System.out.println("Znajdujesz skarb: " + treasure.getName());
