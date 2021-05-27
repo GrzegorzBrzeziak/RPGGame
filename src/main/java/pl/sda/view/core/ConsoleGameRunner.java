@@ -23,5 +23,8 @@ public class ConsoleGameRunner {
     public void closeGameLoop() {
         game_runner = false;
     }
+    public void openGameLoop() {
+        game_runner = true;
+    }
 
 }

@@ -57,17 +57,32 @@ public class PlayerRepoImpl implements PlayerRepo{
     }
 
     @Override
-    public void savePlayer(List<Player> playerList) throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
+    public void savePlayer(Player player)  {
 
-        Writer writer  = new FileWriter(PLAYER_CSV_FILE_PATH);
+        List<Player> playerList = new ArrayList<>();
+        playerList.add(player);
+
+        Writer writer  = null;
+        try {
+            writer = new FileWriter(PLAYER_CSV_FILE_PATH);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         StatefulBeanToCsv sbc = new StatefulBeanToCsvBuilder(writer)
                 .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
                 .build();
 
 
-
-        sbc.write(playerList);
-        writer.close();
+        try {
+            sbc.write(playerList);
+        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
+            e.printStackTrace();
+        }
+        try {
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

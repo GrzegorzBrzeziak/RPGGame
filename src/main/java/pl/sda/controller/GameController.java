@@ -78,6 +78,7 @@ public class GameController {
     }
 
     public void start() {
+        gameRunner.openGameLoop();
         gameRunner.runGameLoop();
     }
 }

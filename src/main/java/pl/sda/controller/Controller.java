@@ -30,15 +30,17 @@ public class Controller {
                 "Załaduj grę",
                 () -> {
                     player = playerRepo.loadPlayer();
+
                     gameController.start();
                 }
         ));
 
-//        TODO
-//        menu.addMenuItem(new MenuItem(
-//                "Zapisz grę",
-//                Menu.DEFAULT_QUIT
-//        ));
+        menu.addMenuItem(new MenuItem(
+                "Zapisz grę",
+                ()-> {
+                    playerRepo.savePlayer(player);
+                }
+        ));
 
         menu.addMenuItem(new MenuItem(
                 "Koniec",
