@@ -11,7 +11,7 @@ public interface PlayerRepo {
 
     public Player createNewPlayer();
 
-    public List<Player> loadPlayer();
+    public Player loadPlayer();
 
     public void savePlayer(List<Player> playerList) throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException;
 }

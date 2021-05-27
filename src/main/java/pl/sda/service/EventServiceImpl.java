@@ -4,6 +4,7 @@ import pl.sda.model.*;
 import pl.sda.repository.*;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class EventServiceImpl implements EventServiceRepo{
 
@@ -85,6 +86,12 @@ public class EventServiceImpl implements EventServiceRepo{
 
         }
 
+    }
+
+    @Override
+    public int getRandomIntFrom0To100() {
+        int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, 100);
+        return boundedRandomValue;
     }
 
 

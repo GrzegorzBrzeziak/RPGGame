@@ -1,8 +1,13 @@
 package pl.sda.model;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class Player {
+    @CsvBindByName
     private int hp;
+    @CsvBindByName
     private int attack;
+    @CsvBindByName
     private int armor;
 
 

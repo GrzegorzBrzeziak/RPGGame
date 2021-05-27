@@ -31,7 +31,7 @@ public class PlayerRepoImpl implements PlayerRepo{
     }
 
     @Override
-    public List<Player> loadPlayer() {
+    public Player loadPlayer() {
 
         List<Player> playerList = new ArrayList<>();
         Reader reader = null;
@@ -52,7 +52,7 @@ public class PlayerRepoImpl implements PlayerRepo{
             playerList.add(player);
         }
 
-        return playerList;
+        return playerList.get(0);
 
     }
 
