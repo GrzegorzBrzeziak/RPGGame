@@ -37,7 +37,7 @@ public class TreasureRepoImpl implements TreasureRepo {
 
         while (csvUserIterator.hasNext()) {
             Treasure treasure = csvUserIterator.next();
-            treasuresList.add(new Treasure(treasure.getId(), treasure.getName(), treasure.getHp(), treasure.getAttack(), treasure.getArmor()));
+            treasuresList.add(new Treasure(treasure.getId(), treasure.getName(), treasure.getHp(), treasure.getAttack(), treasure.getArmor(), treasure.getMaxhp()));
         }
 
         return treasuresList;

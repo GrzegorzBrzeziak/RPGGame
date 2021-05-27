@@ -45,6 +45,7 @@ public class EventServiceImpl implements EventServiceRepo{
                 player.setHp(100);
                 player.setAttack(10);
                 player.setArmor(0);
+                player.setMaxHp(100);
                 PlayerRepoImpl playerRepo = new PlayerRepoImpl();
                 playerRepo.savePlayer(player);
                 System.exit(1);
@@ -63,13 +64,17 @@ public class EventServiceImpl implements EventServiceRepo{
                 gameViewService.printFoundTreasureGetHp(treasure);
                 player.setHp(player.getHp() + treasure.getHp());
             }
-            if(treasure.getAttack() != 0) {
-                gameViewService.printFoundTreasureGetAttack(treasure);
+            if(treasure.getArmor() != 0) {
+                gameViewService.printFoundTreasureGetArmor(treasure);
                 player.setArmor(player.getArmor() + treasure.getArmor());
             }
             if (treasure.getAttack() != 0) {
-                gameViewService.printFoundTreasureGetArmor(treasure);
+                gameViewService.printFoundTreasureGetAttack(treasure);
                 player.setAttack(player.getAttack() + treasure.getAttack());
+            }
+            if (treasure.getMaxhp() != 0) {
+                gameViewService.printFoundTreasureGetMaxHP(treasure);
+                player.setAttack(player.getMaxHp() + treasure.getMaxhp());
             }
             gameViewService.printPlayerStats(player);
 
@@ -79,9 +84,17 @@ public class EventServiceImpl implements EventServiceRepo{
             List<Encounter> encounterList = encounterRepo.ReadEncountersFromCSV();
             Encounter encounter = encounterRepo.getRandomEncounter(encounterList);
             gameViewService.printEncounterName(encounter);
+            if (encounter.getId() == 1){
+            gameViewService.printEncounterId1(encounter);
+            player.setHp(player.getMaxHp());
+            }
             if(encounter.getHp() != 0) {
                 gameViewService.printEncounterGetHp(encounter);
-                player.setHp(player.getHp() + encounter.getHp());
+                if (player.getHp() + encounter.getHp() >= player.getMaxHp()){
+                    player.setHp(player.getMaxHp());
+                }else {
+                    player.setHp(player.getHp() + encounter.getHp());
+                }
             }
             if(encounter.getAttack() != 0) {
                 gameViewService.printEncounterGetArmor(encounter);

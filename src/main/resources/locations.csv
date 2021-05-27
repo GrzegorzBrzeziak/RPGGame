@@ -1,6 +1,6 @@
 id,name,monsterChance,treasureChance,encounterChance
-1,Krzaki,40,20,40
-2,Zamek,20,30,50
+1,Krzaki,50,20,30
+2,Zamek,25,35,40
 3,Polana,60,10,30
-4,Las,80,10,10
-5,Wioska,10,10,80
+4,Las,75,25,00
+5,Wioska,00,10,90

@@ -1,6 +1,6 @@
 id,name,hp,attack,armor
-1,Uzdrowiciel,30,0,0
+1,Uzdrowiciel,0,0,0
 2,Demon,-30,0,0
 3,Kowal,10,1,1
-4,Chłop,5,0,0
+4,Chłop,30,0,0
 5,Mistrz,0,2,1,

@@ -18,15 +18,27 @@ public class Treasure {
     @CsvBindByName
     private int armor;
 
+    @CsvBindByName
+    private int maxhp;
+
     public Treasure() {
     }
 
-    public Treasure(int id, String name, int hp, int attack, int armor) {
+    public Treasure(int id, String name, int hp, int attack, int armor, int maxhp) {
         this.id = id;
         this.name = name;
         this.hp = hp;
         this.attack = attack;
         this.armor = armor;
+        this.maxhp = maxhp;
+    }
+
+    public int getMaxhp() {
+        return maxhp;
+    }
+
+    public void setMaxhp(int maxhp) {
+        this.maxhp = maxhp;
     }
 
     public int getId() {

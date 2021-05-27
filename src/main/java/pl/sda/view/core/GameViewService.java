@@ -12,7 +12,7 @@ public class GameViewService {
     }
 
     public void printPlayerStats(Player player){
-        System.out.println("Masz teraz: " + player.getHp() + " HP, " + player.getAttack() + " ataku, " + player.getArmor() + " pancerza.");
+        System.out.println("Masz teraz: " + player.getHp() + " HP, " + player.getAttack() + " ataku, " + player.getArmor() + " pancerza, " + player.getMaxHp() + " maksymalnego HP.");
 
     }
 
@@ -46,10 +46,16 @@ public class GameViewService {
     public void printFoundTreasureGetArmor(Treasure treasure){
         System.out.println("Zdobywasz: " + treasure.getAttack() + " ataku");
     }
+    public void printFoundTreasureGetMaxHP(Treasure treasure){
+        System.out.println("Zdobywasz: " + treasure.getMaxhp() + " do max HP");
+    }
 
 
     public void printEncounterName(Encounter encounter){
         System.out.println("Spotykasz się z: " + encounter.getName() + "em");
+    }
+    public void printEncounterId1(Encounter encounter){
+        System.out.println("Uzdrowiciel przywraca Ciebie do pełni sił.");
     }
 
     public void printEncounterGetHp(Encounter encounter){

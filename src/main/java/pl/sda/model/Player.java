@@ -9,6 +9,9 @@ public class Player {
     private int attack;
     @CsvBindByName
     private int armor;
+    @CsvBindByName
+    private int maxHp;
+
 
 
     public int getHp() {
@@ -35,13 +38,21 @@ public class Player {
         this.armor = armor;
     }
 
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
+
     public Player() {
     }
 
-    public Player(int hp, int attack, int armor) {
+    public Player(int hp, int attack, int armor, int maxHp) {
         this.hp = hp;
         this.attack = attack;
         this.armor = armor;
-
+        this.maxHp = maxHp;
     }
 }
