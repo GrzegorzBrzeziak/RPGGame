@@ -3,6 +3,7 @@ package pl.sda.repository;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import pl.sda.model.Monster;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -12,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class MonsterRepoImpl implements MonsterRepo{
+public class MonsterRepoImpl implements MonsterRepo {
 
     private static final String MONSTERS_CSV_FILE_PATH = "./src/main/resources/monsters.csv";
 
@@ -35,7 +36,7 @@ public class MonsterRepoImpl implements MonsterRepo{
 
         while (csvUserIterator.hasNext()) {
             Monster monster = csvUserIterator.next();
-            monstersList.add(new Monster(monster.getId(), monster.getName(), monster.getHp(), monster.getMinAttack(), monster.getMaxAttack(), monster.getArmor(), monster.getCriticalChance(), monster.getCriticalMultiplayer(), monster.getAccuracy(), monster.getDodge(), monster.getLootChance()));
+            monstersList.add(new Monster(monster.getId(), monster.getName(), monster.getHp(), monster.getMinAttack(), monster.getMaxAttack(), monster.getArmor(), monster.getCriticalChance(), monster.getCriticalMultiplayer(), monster.getAccuracy(), monster.getDodge(), monster.getLootChance(), monster.getXp()));
         }
 
         return monstersList;

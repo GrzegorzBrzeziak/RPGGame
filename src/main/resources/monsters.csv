@@ -1,6 +1,6 @@
-id,name,hp,minAttack,maxAttack,armor,criticalChance,criticalMultiplayer,accuracy,dodge,lootChance
-1,Pies,50,5,8,0,4,2,100,15,90
-2,Bandyta,70,5,10,1,2,2.1,80,10,90
-3,Żywiołak,80,5,9,3,3,2.5,100,5,90
-4,Chochlik,30,7,10,5,10,1.7,100,30,90
-5,Szczur,30,2,5,0,2,2,60,20,90
+id,name,hp,minAttack,maxAttack,armor,criticalChance,criticalMultiplayer,accuracy,dodge,lootChance,xp
+1,Pies,20,5,8,0,4,2,100,15,90,300
+2,Bandyta,30,5,10,1,2,2.1,80,10,90,600
+3,Żywiołak,30,5,9,3,3,2.5,100,5,90,500
+4,Chochlik,20,7,10,5,10,1.7,100,30,90,400
+5,Szczur,10,2,5,0,2,2,60,20,90,150

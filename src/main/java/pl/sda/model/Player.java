@@ -21,6 +21,10 @@ public class Player {
     private int accuracy;
     @CsvBindByName
     private int dodge;
+    @CsvBindByName
+    private int xp;
+    @CsvBindByName
+    private int playerLevel;
 
 
     public int getHp() {
@@ -95,10 +99,26 @@ public class Player {
         this.dodge = dodge;
     }
 
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    public int getPlayerLevel() {
+        return playerLevel;
+    }
+
+    public void setPlayerLevel(int playerLevel) {
+        this.playerLevel = playerLevel;
+    }
+
     public Player() {
     }
 
-    public Player(int hp, int minAttack, int maxAttack, int armor, int maxHp, int criticalChance, double criticalMultiplayer, int accuracy, int dodge) {
+    public Player(int hp, int minAttack, int maxAttack, int armor, int maxHp, int criticalChance, double criticalMultiplayer, int accuracy, int dodge, int xp, int playerLevel) {
         this.hp = hp;
         this.minAttack = minAttack;
         this.maxAttack = maxAttack;
@@ -108,5 +128,7 @@ public class Player {
         this.criticalMultiplayer = criticalMultiplayer;
         this.accuracy = accuracy;
         this.dodge = dodge;
+        this.xp = xp;
+        this.playerLevel = playerLevel;
     }
 }

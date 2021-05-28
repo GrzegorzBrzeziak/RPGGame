@@ -2,11 +2,10 @@ package pl.sda.service;
 
 import pl.sda.model.*;
 import pl.sda.repository.*;
-import pl.sda.view.core.GameConsoleView;
 import pl.sda.view.core.GameViewService;
 
 import java.util.List;
-import java.util.Random;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class EventServiceImpl implements EventServiceRepo {
@@ -15,6 +14,7 @@ public class EventServiceImpl implements EventServiceRepo {
     MonsterRepoImpl monsterRepo = new MonsterRepoImpl();
     TreasureRepoImpl treasureRepo = new TreasureRepoImpl();
     EncounterRepoImpl encounterRepo = new EncounterRepoImpl();
+    PlayerLevelRepoImpl playerLevelRepo = new PlayerLevelRepoImpl();
     private final GameViewService gameViewService = new GameViewService();
 
 
@@ -24,18 +24,11 @@ public class EventServiceImpl implements EventServiceRepo {
         int randomInteger = getRandomIntFrom0To100();
 
         if (randomInteger <= location.getMonsterChance()) {
-
             monsterEvent(player);
-
-
         } else if (randomInteger > location.getMonsterChance() && randomInteger <= (location.getMonsterChance() + location.getTreasureChance())) {
-
             treasureEvent(player);
-
         } else {
-
             encounterEvent(player);
-
         }
 
     }
@@ -43,14 +36,12 @@ public class EventServiceImpl implements EventServiceRepo {
 
     @Override
     public int getRandomIntFrom0To100() {
-        int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, 101);
-        return boundedRandomValue;
+        return ThreadLocalRandom.current().nextInt(0, 101);
     }
 
     @Override
     public int getRandomDamageValue(int dmgMin, int dmgMax) {
-        int boundedRandomValue = ThreadLocalRandom.current().nextInt(dmgMin, (dmgMax + 1));
-        return boundedRandomValue;
+        return ThreadLocalRandom.current().nextInt(dmgMin, (dmgMax + 1));
     }
 
     @Override
@@ -65,6 +56,8 @@ public class EventServiceImpl implements EventServiceRepo {
         player.setCriticalMultiplayer(2);
         player.setAccuracy(80);
         player.setDodge(0);
+        player.setXp(0);
+        player.setPlayerLevel(0);
         PlayerRepoImpl playerRepo = new PlayerRepoImpl();
         playerRepo.savePlayer(player);
         System.exit(1);
@@ -116,10 +109,7 @@ public class EventServiceImpl implements EventServiceRepo {
     public boolean isMissedAttack(int accuracy, double dodge) {
         int randomInt = getRandomIntFrom0To100();
         double hitChance = ((accuracy - dodge) / accuracy) * 100;
-        if (randomInt < hitChance) {
-            return false;
-        }
-        return true;
+        return !(randomInt < hitChance);
     }
 
     public void treasureEvent(Player player) {
@@ -163,13 +153,21 @@ public class EventServiceImpl implements EventServiceRepo {
         if (player.getHp() <= 0) {
             playerLosesGame(player);
         }
+        player.setXp(player.getXp() + monster.getXp());
+        gameViewService.printPlayerXp(player);
+        Level playerLevelFromList = playerLevelRepo.getLevel(playerLevelRepo.ReadlevelsFromCSV(), player);
+        if (player.getXp() >= playerLevelFromList.getXp()) {
+            player.setXp(player.getXp() - playerLevelFromList.getXp());
+            player.setPlayerLevel(playerLevelFromList.getId());
+            levelUp(player);
+        }
+
         gameViewService.printPlayerStats(player);
 
         int randomLoot = getRandomIntFrom0To100();
         if (randomLoot <= monster.getLootChance()) {
             treasureEvent(player);
         }
-
     }
 
     public void encounterEvent(Player player) {
@@ -185,7 +183,10 @@ public class EventServiceImpl implements EventServiceRepo {
             gameViewService.printEncounterGetHp(encounter);
             if (player.getHp() + encounter.getHp() >= player.getMaxHp()) {
                 player.setHp(player.getMaxHp());
-            } else {
+            } else if (player.getHp() + encounter.getHp() <= 0){
+                playerLosesGame(player);
+            }
+            else {
                 player.setHp(player.getHp() + encounter.getHp());
             }
         }
@@ -201,4 +202,25 @@ public class EventServiceImpl implements EventServiceRepo {
         gameViewService.printPlayerStats(player);
     }
 
+    public void levelUp(Player player) {
+        gameViewService.youHaveGainedALevel(player);
+        Scanner scanner = new Scanner(System.in);
+        int playerChoice = scanner.nextInt();
+        if (playerChoice == 1) {
+            player.setMaxHp(player.getMaxHp() + 10);
+            player.setHp(player.getMaxHp());
+        } else if (playerChoice == 2) {
+            player.setMinAttack(player.getMinAttack() + 3);
+            player.setMaxAttack(player.getMaxAttack() + 3);
+        } else if (playerChoice == 3) {
+            player.setDodge(player.getDodge() + 5);
+            player.setAccuracy(player.getAccuracy() + 5);
+        } else if (playerChoice == 4) {
+            player.setMaxAttack(player.getMaxAttack() + 2);
+            player.setCriticalChance(player.getCriticalChance() + 2);
+        } else {
+            System.out.println("Podaj liczbę.");
+        }
+
+    }
 }
