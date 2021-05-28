@@ -128,6 +128,8 @@ public class EventServiceImpl implements EventServiceRepo{
         player.setMaxHp(100);
         player.setCriticalChance(1);
         player.setCriticalMultiplayer(2);
+        player.setAccuracy(80);
+        player.setDodge(0);
         PlayerRepoImpl playerRepo = new PlayerRepoImpl();
         playerRepo.savePlayer(player);
         System.exit(1);
@@ -137,25 +139,32 @@ public class EventServiceImpl implements EventServiceRepo{
     @Override
     public void fight(Player player, Monster monster) {
 
-        int randomizedPlayerDmg = getRandomDamageValue(player.getMinAttack(), player.getMaxAttack());
-        int dmgWithCrit = calculateCriticalDamage(randomizedPlayerDmg, player.getCriticalChance(), player.getCriticalMultiplayer());
-        gameViewService.printPlayerAttack(dmgWithCrit);
-        if(dmgWithCrit - monster.getArmor() <= 0 ){
-            monster.setHp(monster.getHp() - 1);
-        } else {
-            monster.setHp(monster.getHp() - (dmgWithCrit - monster.getArmor()));
+        if(isMissedAttack(player.getAccuracy(), monster.getDodge())){
+            gameViewService.printMissedAttack();
+        }else {
+            int randomizedPlayerDmg = getRandomDamageValue(player.getMinAttack(), player.getMaxAttack());
+            int dmgWithCrit = calculateCriticalDamage(randomizedPlayerDmg, player.getCriticalChance(), player.getCriticalMultiplayer());
+            gameViewService.printPlayerAttack(dmgWithCrit);
+            if (dmgWithCrit - monster.getArmor() <= 0) {
+                monster.setHp(monster.getHp() - 1);
+            } else {
+                monster.setHp(monster.getHp() - (dmgWithCrit - monster.getArmor()));
+            }
+            gameViewService.printMonsterHp(monster);
         }
-        gameViewService.printMonsterHp(monster);
-        int randomizedMonsterDmg = getRandomDamageValue(monster.getMinAttack(), monster.getMaxAttack());
-        int monsterDmgWithCrit = calculateCriticalDamage(randomizedMonsterDmg, monster.getCriticalChance(), monster.getCriticalMultiplayer());
-        gameViewService.printMonsterAttack(monster, monsterDmgWithCrit);
-        if(monsterDmgWithCrit - player.getArmor() <= 0) {
-            player.setHp(player.getHp() - 1);
+        if(isMissedAttack(monster.getAccuracy(), player.getDodge())){
+            gameViewService.printMissedAttack();
         } else {
-            player.setHp(player.getHp() - (monsterDmgWithCrit - player.getArmor()));
+            int randomizedMonsterDmg = getRandomDamageValue(monster.getMinAttack(), monster.getMaxAttack());
+            int monsterDmgWithCrit = calculateCriticalDamage(randomizedMonsterDmg, monster.getCriticalChance(), monster.getCriticalMultiplayer());
+            gameViewService.printMonsterAttack(monster, monsterDmgWithCrit);
+            if (monsterDmgWithCrit - player.getArmor() <= 0) {
+                player.setHp(player.getHp() - 1);
+            } else {
+                player.setHp(player.getHp() - (monsterDmgWithCrit - player.getArmor()));
+            }
+            gameViewService.printPlayerHp(player);
         }
-        gameViewService.printPlayerHp(player);
-
     }
 
     public int calculateCriticalDamage(int damage, int criticalDamageChance, double criticalDmgMultiplayer){
@@ -169,5 +178,13 @@ public class EventServiceImpl implements EventServiceRepo{
         return damage;
     }
 
+    public boolean isMissedAttack(int accuracy, double dodge){
+        int randomInt = getRandomIntFrom0To100();
+        double hitChance = (( accuracy - dodge)/accuracy)*100;
+        if(randomInt < hitChance){
+            return false;
+        }
+        return true;
+    }
 
 }
