@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class EventServiceImpl implements EventServiceRepo{
-
+public class EventServiceImpl implements EventServiceRepo {
 
 
     MonsterRepoImpl monsterRepo = new MonsterRepoImpl();
@@ -19,91 +18,27 @@ public class EventServiceImpl implements EventServiceRepo{
     private final GameViewService gameViewService = new GameViewService();
 
 
-
     @Override
     public void eventRandomizer(Location location, Player player) {
 
         int randomInteger = getRandomIntFrom0To100();
 
-        if (randomInteger <= location.getMonsterChance()){
+        if (randomInteger <= location.getMonsterChance()) {
 
-            System.out.println("MonsterEvent");
-            List<Monster> monsterList = monsterRepo.ReadMonstersFromCSV();
-            Monster monster = monsterRepo.getRandomMonster(monsterList);
-            gameViewService.printAttackingMonsterName(monster);
-
-            while (player.getHp() > 0 && monster.getHp()> 0){
-                fight(player, monster);
-            }
-            if (player.getHp() <= 0){
-                playerLosesGame(player);
-            }
-            gameViewService.printPlayerStats(player);
+            monsterEvent(player);
 
 
+        } else if (randomInteger > location.getMonsterChance() && randomInteger <= (location.getMonsterChance() + location.getTreasureChance())) {
 
-        } else if (randomInteger > location.getMonsterChance() && randomInteger <= (location.getMonsterChance() + location.getTreasureChance())){
-
-            System.out.println("TreasureEvent");
-            List<Treasure> treasureList = treasureRepo.ReadTreasuresFromCSV();
-            Treasure treasure = treasureRepo.getRandomTreasure(treasureList);
-            gameViewService.printFoundTreasure(treasure);
-            if (treasure.getHp() != 0) {
-                gameViewService.printFoundTreasureGetHp(treasure);
-                if (player.getHp() + treasure.getHp() >= player.getMaxHp()){
-                    player.setHp(player.getMaxHp());
-                }else {
-                    player.setHp(player.getHp() + treasure.getHp());
-                }
-            }
-            if (treasure.getArmor() != 0) {
-                gameViewService.printFoundTreasureGetArmor(treasure);
-                player.setArmor(player.getArmor() + treasure.getArmor());
-            }
-            if (treasure.getAttack() != 0) {
-                gameViewService.printFoundTreasureGetAttack(treasure);
-                player.setMinAttack(player.getMinAttack() + treasure.getAttack());
-                player.setMaxAttack(player.getMaxAttack() + treasure.getAttack());
-            }
-            if (treasure.getMaxhp() != 0) {
-                gameViewService.printFoundTreasureGetMaxHP(treasure);
-                player.setMaxHp(player.getMaxHp() + treasure.getMaxhp());
-            }
-            gameViewService.printPlayerStats(player);
+            treasureEvent(player);
 
         } else {
 
-            System.out.println("EncounterEvent");
-            List<Encounter> encounterList = encounterRepo.ReadEncountersFromCSV();
-            Encounter encounter = encounterRepo.getRandomEncounter(encounterList);
-            gameViewService.printEncounterName(encounter);
-            if (encounter.getId() == 1){
-            gameViewService.printEncounterId1(encounter);
-            player.setHp(player.getMaxHp());
-            }
-            if(encounter.getHp() != 0) {
-                gameViewService.printEncounterGetHp(encounter);
-                if (player.getHp() + encounter.getHp() >= player.getMaxHp()){
-                    player.setHp(player.getMaxHp());
-                }else {
-                    player.setHp(player.getHp() + encounter.getHp());
-                }
-            }
-            if(encounter.getAttack() != 0) {
-                gameViewService.printEncounterGetArmor(encounter);
-                player.setArmor(player.getArmor() + encounter.getArmor());
-            }
-            if (encounter.getAttack() != 0) {
-                gameViewService.printEncounterGetAttack(encounter);
-                player.setMinAttack(player.getMinAttack() + encounter.getAttack());
-                player.setMaxAttack(player.getMaxAttack() + encounter.getAttack());
-            }
-            gameViewService.printPlayerStats(player);
+            encounterEvent(player);
 
         }
 
     }
-
 
 
     @Override
@@ -113,8 +48,8 @@ public class EventServiceImpl implements EventServiceRepo{
     }
 
     @Override
-    public int getRandomDamageValue(int dmgMin, int dmgMax ) {
-        int boundedRandomValue = ThreadLocalRandom.current().nextInt(dmgMin, (dmgMax + 1) );
+    public int getRandomDamageValue(int dmgMin, int dmgMax) {
+        int boundedRandomValue = ThreadLocalRandom.current().nextInt(dmgMin, (dmgMax + 1));
         return boundedRandomValue;
     }
 
@@ -139,9 +74,9 @@ public class EventServiceImpl implements EventServiceRepo{
     @Override
     public void fight(Player player, Monster monster) {
 
-        if(isMissedAttack(player.getAccuracy(), monster.getDodge())){
-            gameViewService.printMissedAttack();
-        }else {
+        if (isMissedAttack(player.getAccuracy(), monster.getDodge())) {
+            gameViewService.printMissedPlayerAttack(player);
+        } else {
             int randomizedPlayerDmg = getRandomDamageValue(player.getMinAttack(), player.getMaxAttack());
             int dmgWithCrit = calculateCriticalDamage(randomizedPlayerDmg, player.getCriticalChance(), player.getCriticalMultiplayer());
             gameViewService.printPlayerAttack(dmgWithCrit);
@@ -152,8 +87,8 @@ public class EventServiceImpl implements EventServiceRepo{
             }
             gameViewService.printMonsterHp(monster);
         }
-        if(isMissedAttack(monster.getAccuracy(), player.getDodge())){
-            gameViewService.printMissedAttack();
+        if (isMissedAttack(monster.getAccuracy(), player.getDodge())) {
+            gameViewService.printMissedMonsterAttack(monster);
         } else {
             int randomizedMonsterDmg = getRandomDamageValue(monster.getMinAttack(), monster.getMaxAttack());
             int monsterDmgWithCrit = calculateCriticalDamage(randomizedMonsterDmg, monster.getCriticalChance(), monster.getCriticalMultiplayer());
@@ -167,9 +102,9 @@ public class EventServiceImpl implements EventServiceRepo{
         }
     }
 
-    public int calculateCriticalDamage(int damage, int criticalDamageChance, double criticalDmgMultiplayer){
+    public int calculateCriticalDamage(int damage, int criticalDamageChance, double criticalDmgMultiplayer) {
         int randomInt = getRandomIntFrom0To100();
-        if(randomInt < criticalDamageChance){
+        if (randomInt < criticalDamageChance) {
 
             damage = (int) (damage * criticalDmgMultiplayer);
             gameViewService.printCriticalDamage(damage);
@@ -178,13 +113,92 @@ public class EventServiceImpl implements EventServiceRepo{
         return damage;
     }
 
-    public boolean isMissedAttack(int accuracy, double dodge){
+    public boolean isMissedAttack(int accuracy, double dodge) {
         int randomInt = getRandomIntFrom0To100();
-        double hitChance = (( accuracy - dodge)/accuracy)*100;
-        if(randomInt < hitChance){
+        double hitChance = ((accuracy - dodge) / accuracy) * 100;
+        if (randomInt < hitChance) {
             return false;
         }
         return true;
+    }
+
+    public void treasureEvent(Player player) {
+        System.out.println("TreasureEvent");
+        List<Treasure> treasureList = treasureRepo.ReadTreasuresFromCSV();
+        Treasure treasure = treasureRepo.getRandomTreasure(treasureList);
+        gameViewService.printFoundTreasure(treasure);
+        if (treasure.getHp() != 0) {
+            gameViewService.printFoundTreasureGetHp(treasure);
+            if (player.getHp() + treasure.getHp() >= player.getMaxHp()) {
+                player.setHp(player.getMaxHp());
+            } else {
+                player.setHp(player.getHp() + treasure.getHp());
+            }
+        }
+        if (treasure.getArmor() != 0) {
+            gameViewService.printFoundTreasureGetArmor(treasure);
+            player.setArmor(player.getArmor() + treasure.getArmor());
+        }
+        if (treasure.getAttack() != 0) {
+            gameViewService.printFoundTreasureGetAttack(treasure);
+            player.setMinAttack(player.getMinAttack() + treasure.getAttack());
+            player.setMaxAttack(player.getMaxAttack() + treasure.getAttack());
+        }
+        if (treasure.getMaxhp() != 0) {
+            gameViewService.printFoundTreasureGetMaxHP(treasure);
+            player.setMaxHp(player.getMaxHp() + treasure.getMaxhp());
+        }
+        gameViewService.printPlayerStats(player);
+    }
+
+    public void monsterEvent(Player player) {
+        System.out.println("MonsterEvent");
+        List<Monster> monsterList = monsterRepo.ReadMonstersFromCSV();
+        Monster monster = monsterRepo.getRandomMonster(monsterList);
+        gameViewService.printAttackingMonsterName(monster);
+
+        while (player.getHp() > 0 && monster.getHp() > 0) {
+            fight(player, monster);
+        }
+        if (player.getHp() <= 0) {
+            playerLosesGame(player);
+        }
+        gameViewService.printPlayerStats(player);
+
+        int randomLoot = getRandomIntFrom0To100();
+        if (randomLoot <= monster.getLootChance()) {
+            treasureEvent(player);
+        }
+
+    }
+
+    public void encounterEvent(Player player) {
+        System.out.println("EncounterEvent");
+        List<Encounter> encounterList = encounterRepo.ReadEncountersFromCSV();
+        Encounter encounter = encounterRepo.getRandomEncounter(encounterList);
+        gameViewService.printEncounterName(encounter);
+        if (encounter.getId() == 1) {
+            gameViewService.printEncounterId1(encounter);
+            player.setHp(player.getMaxHp());
+        }
+        if (encounter.getHp() != 0) {
+            gameViewService.printEncounterGetHp(encounter);
+            if (player.getHp() + encounter.getHp() >= player.getMaxHp()) {
+                player.setHp(player.getMaxHp());
+            } else {
+                player.setHp(player.getHp() + encounter.getHp());
+            }
+        }
+        if (encounter.getAttack() != 0) {
+            gameViewService.printEncounterGetArmor(encounter);
+            player.setArmor(player.getArmor() + encounter.getArmor());
+        }
+        if (encounter.getAttack() != 0) {
+            gameViewService.printEncounterGetAttack(encounter);
+            player.setMinAttack(player.getMinAttack() + encounter.getAttack());
+            player.setMaxAttack(player.getMaxAttack() + encounter.getAttack());
+        }
+        gameViewService.printPlayerStats(player);
     }
 
 }

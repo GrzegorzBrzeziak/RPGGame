@@ -33,8 +33,11 @@ public class Monster {
     @CsvBindByName
     private int dodge;
 
+    @CsvBindByName
+    private int lootChance;
 
-    public Monster(int id, String name, int hp, int minAttack, int maxAttack, int armor, int criticalChance, double criticalMultiplayer, int accuracy, int dodge) {
+
+    public Monster(int id, String name, int hp, int minAttack, int maxAttack, int armor, int criticalChance, double criticalMultiplayer, int accuracy, int dodge, int lootChance) {
         this.id = id;
         this.name = name;
         this.hp = hp;
@@ -45,6 +48,7 @@ public class Monster {
         this.criticalMultiplayer = criticalMultiplayer;
         this.accuracy = accuracy;
         this.dodge = dodge;
+        this.lootChance = lootChance;
     }
 
     public Monster() {
@@ -128,5 +132,13 @@ public class Monster {
 
     public void setDodge(int dodge) {
         this.dodge = dodge;
+    }
+
+    public int getLootChance() {
+        return lootChance;
+    }
+
+    public void setLootChance(int lootChance) {
+        this.lootChance = lootChance;
     }
 }

@@ -40,8 +40,11 @@ public class GameViewService {
         System.out.println("CRITICAL! " + damage + " DMG.");
     }
 
-    public void printMissedAttack(){
-        System.out.println("Pudło!");
+    public void printMissedPlayerAttack(Player player){
+        System.out.println("Pudłujesz!");
+    }
+    public void printMissedMonsterAttack(Monster monster){
+        System.out.println("Potwór: " + monster.getName() + " pudłuje!");
     }
 
     public void printAttackingMonsterName(Monster monster){
