@@ -16,18 +16,16 @@ public class EventServiceImpl implements EventServiceRepo{
     MonsterRepoImpl monsterRepo = new MonsterRepoImpl();
     TreasureRepoImpl treasureRepo = new TreasureRepoImpl();
     EncounterRepoImpl encounterRepo = new EncounterRepoImpl();
-    private GameViewService gameViewService = new GameViewService();
+    private final GameViewService gameViewService = new GameViewService();
 
 
 
     @Override
     public void eventRandomizer(Location location, Player player) {
 
-        Random rand = new Random();
+        int randomInteger = getRandomIntFrom0To100();
 
-        int random_integer = rand.nextInt(100);
-
-        if (random_integer <= location.getMonsterChance()){
+        if (randomInteger <= location.getMonsterChance()){
 
             System.out.println("MonsterEvent");
             List<Monster> monsterList = monsterRepo.ReadMonstersFromCSV();
@@ -35,37 +33,22 @@ public class EventServiceImpl implements EventServiceRepo{
             gameViewService.printAttackingMonsterName(monster);
 
             while (player.getHp() > 0 && monster.getHp()> 0){
-                int randomizedPlayerDmg = getRandomDamageValue(player.getMinAttack(), player.getMaxAttack());
-                gameViewService.printPlayerAttack(randomizedPlayerDmg);
-                monster.setHp(monster.getHp() - (randomizedPlayerDmg - monster.getArmor()));
-                gameViewService.printMonsterHp(monster);
-                int randomizedMonsterDmg = getRandomDamageValue(monster.getMinAttack(), monster.getMaxAttack());
-                gameViewService.printMonsterAttack(monster, randomizedMonsterDmg);
-                player.setHp(player.getHp() - (randomizedMonsterDmg - player.getArmor()));
-                gameViewService.printPlayerHp(player);
+                fight(player, monster);
             }
-            if (monster.getHp() > player.getHp() || player.getHp() <= 0){
-                gameViewService.youLose();
-                player.setHp(100);
-                player.setMinAttack(2);
-                player.setMaxAttack(3);
-                player.setArmor(0);
-                player.setMaxHp(100);
-                PlayerRepoImpl playerRepo = new PlayerRepoImpl();
-                playerRepo.savePlayer(player);
-                System.exit(1);
+            if (player.getHp() <= 0){
+                playerLosesGame(player);
             }
             gameViewService.printPlayerStats(player);
 
 
 
-        } else if (random_integer > location.getMonsterChance() && random_integer <= (location.getMonsterChance() + location.getTreasureChance())){
+        } else if (randomInteger > location.getMonsterChance() && randomInteger <= (location.getMonsterChance() + location.getTreasureChance())){
 
             System.out.println("TreasureEvent");
             List<Treasure> treasureList = treasureRepo.ReadTreasuresFromCSV();
             Treasure treasure = treasureRepo.getRandomTreasure(treasureList);
             gameViewService.printFoundTreasure(treasure);
-            if(treasure.getHp() != 0) {
+            if (treasure.getHp() != 0) {
                 gameViewService.printFoundTreasureGetHp(treasure);
                 if (player.getHp() + treasure.getHp() >= player.getMaxHp()){
                     player.setHp(player.getMaxHp());
@@ -73,7 +56,7 @@ public class EventServiceImpl implements EventServiceRepo{
                     player.setHp(player.getHp() + treasure.getHp());
                 }
             }
-            if(treasure.getArmor() != 0) {
+            if (treasure.getArmor() != 0) {
                 gameViewService.printFoundTreasureGetArmor(treasure);
                 player.setArmor(player.getArmor() + treasure.getArmor());
             }
@@ -121,18 +104,70 @@ public class EventServiceImpl implements EventServiceRepo{
 
     }
 
+
+
     @Override
     public int getRandomIntFrom0To100() {
-        int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, 100);
+        int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, 101);
         return boundedRandomValue;
     }
 
     @Override
     public int getRandomDamageValue(int dmgMin, int dmgMax ) {
-        int boundedRandomValue = ThreadLocalRandom.current().nextInt(dmgMin, dmgMax);
+        int boundedRandomValue = ThreadLocalRandom.current().nextInt(dmgMin, (dmgMax + 1) );
         return boundedRandomValue;
     }
 
+    @Override
+    public void playerLosesGame(Player player) {
+        gameViewService.youLose();
+        player.setHp(100);
+        player.setMinAttack(2);
+        player.setMaxAttack(3);
+        player.setArmor(0);
+        player.setMaxHp(100);
+        player.setCriticalChance(1);
+        player.setCriticalMultiplayer(2);
+        PlayerRepoImpl playerRepo = new PlayerRepoImpl();
+        playerRepo.savePlayer(player);
+        System.exit(1);
+
+    }
+
+    @Override
+    public void fight(Player player, Monster monster) {
+
+        int randomizedPlayerDmg = getRandomDamageValue(player.getMinAttack(), player.getMaxAttack());
+        int dmgWithCrit = calculateCriticalDamage(randomizedPlayerDmg, player.getCriticalChance(), player.getCriticalMultiplayer());
+        gameViewService.printPlayerAttack(dmgWithCrit);
+        if(dmgWithCrit - monster.getArmor() <= 0 ){
+            monster.setHp(monster.getHp() - 1);
+        } else {
+            monster.setHp(monster.getHp() - (dmgWithCrit - monster.getArmor()));
+        }
+        gameViewService.printMonsterHp(monster);
+        int randomizedMonsterDmg = getRandomDamageValue(monster.getMinAttack(), monster.getMaxAttack());
+        int monsterDmgWithCrit = calculateCriticalDamage(randomizedMonsterDmg, monster.getCriticalChance(), monster.getCriticalMultiplayer());
+        gameViewService.printMonsterAttack(monster, monsterDmgWithCrit);
+        if(monsterDmgWithCrit - player.getArmor() <= 0) {
+            player.setHp(player.getHp() - 1);
+        } else {
+            player.setHp(player.getHp() - (monsterDmgWithCrit - player.getArmor()));
+        }
+        gameViewService.printPlayerHp(player);
+
+    }
+
+    public int calculateCriticalDamage(int damage, int criticalDamageChance, double criticalDmgMultiplayer){
+        int randomInt = getRandomIntFrom0To100();
+        if(randomInt < criticalDamageChance){
+
+            damage = (int) (damage * criticalDmgMultiplayer);
+            gameViewService.printCriticalDamage(damage);
+            return damage;
+        }
+        return damage;
+    }
 
 
 }

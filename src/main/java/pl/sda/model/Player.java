@@ -13,6 +13,10 @@ public class Player {
     private int armor;
     @CsvBindByName
     private int maxHp;
+    @CsvBindByName
+    private int criticalChance;
+    @CsvBindByName
+    private double criticalMultiplayer;
 
 
 
@@ -56,14 +60,32 @@ public class Player {
         this.maxHp = maxHp;
     }
 
+    public int getCriticalChance() {
+        return criticalChance;
+    }
+
+    public void setCriticalChance(int criticalChance) {
+        this.criticalChance = criticalChance;
+    }
+
+    public double getCriticalMultiplayer() {
+        return criticalMultiplayer;
+    }
+
+    public void setCriticalMultiplayer(double criticalMultiplayer) {
+        this.criticalMultiplayer = criticalMultiplayer;
+    }
+
     public Player() {
     }
 
-    public Player(int hp, int minAttack, int maxAttack, int armor, int maxHp) {
+    public Player(int hp, int minAttack, int maxAttack, int armor, int maxHp, int criticalChance, double criticalMultiplayer) {
         this.hp = hp;
         this.minAttack = minAttack;
         this.maxAttack = maxAttack;
         this.armor = armor;
         this.maxHp = maxHp;
+        this.criticalChance = criticalChance;
+        this.criticalMultiplayer = criticalMultiplayer;
     }
 }

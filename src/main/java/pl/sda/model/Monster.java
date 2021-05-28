@@ -21,16 +21,23 @@ public class Monster {
     @CsvBindByName
     private int armor;
 
+    @CsvBindByName
+    private int criticalChance;
 
-    public Monster(int id, String name, int hp, int minAttack, int maxAttack, int armor) {
+    @CsvBindByName
+    private double criticalMultiplayer;
+
+
+    public Monster(int id, String name, int hp, int minAttack, int maxAttack, int armor, int criticalChance, double criticalMultiplayer) {
         this.id = id;
         this.name = name;
         this.hp = hp;
         this.minAttack = minAttack;
         this.maxAttack = maxAttack;
         this.armor = armor;
+        this.criticalChance = criticalChance;
+        this.criticalMultiplayer = criticalMultiplayer;
     }
-
 
     public Monster() {
     }
@@ -81,5 +88,21 @@ public class Monster {
 
     public void setArmor(int armor) {
         this.armor = armor;
+    }
+
+    public int getCriticalChance() {
+        return criticalChance;
+    }
+
+    public void setCriticalChance(int criticalChance) {
+        this.criticalChance = criticalChance;
+    }
+
+    public double getCriticalMultiplayer() {
+        return criticalMultiplayer;
+    }
+
+    public void setCriticalMultiplayer(double criticalMultiplayer) {
+        this.criticalMultiplayer = criticalMultiplayer;
     }
 }
