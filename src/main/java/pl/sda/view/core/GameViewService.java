@@ -95,6 +95,8 @@ public class GameViewService {
     public void youHaveGainedALevel(Player player){
         System.out.println("Zdobywasz poziom: " + player.getPlayerLevel() + "!\n" + "Wybierz który atrybut podwyższasz: \n1.Witalność: +10 do HP i max HP.\n2.Siła: +3 do min i max ataku.\n3.Zręczność: +5 do uników i do celności.\n4.Szczęście: +2 do max ataku i +2% szansy na trafienie krytyczne.");
     }
-
+    public void nothingHappens(){
+        System.out.println("Nie natrafiasz na nic niezwykłego.");
+    }
 
 }

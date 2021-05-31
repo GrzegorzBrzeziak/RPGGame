@@ -1,5 +1,6 @@
 package pl.sda.service;
 
+import pl.sda.GameApp;
 import pl.sda.model.*;
 import pl.sda.repository.*;
 import pl.sda.view.core.GameViewService;
@@ -16,7 +17,48 @@ public class EventServiceImpl implements EventServiceRepo {
     EncounterRepoImpl encounterRepo = new EncounterRepoImpl();
     PlayerLevelRepoImpl playerLevelRepo = new PlayerLevelRepoImpl();
     private final GameViewService gameViewService = new GameViewService();
+    LocationRepoImpl impl = new LocationRepoImpl();
+    private List<Location> locationList = impl.ReadLocationsFromCSV();
+    private Location location1 = impl.getRandomLocationBoundedByPlayerLevel(locationList, GameApp.controller.getPlayer());
+    private Location location2 = impl.getRandomLocationBoundedByPlayerLevel(locationList, GameApp.controller.getPlayer());
+    private Location location3 = impl.getRandomLocationBoundedByPlayerLevel(locationList, GameApp.controller.getPlayer());
+    private Location location4 = impl.getRandomLocationBoundedByPlayerLevel(locationList, GameApp.controller.getPlayer());
 
+    public Location getLocation1() {
+        return location1;
+    }
+
+    public Location getLocation2() {
+        return location2;
+    }
+
+    public Location getLocation3() {
+        return location3;
+    }
+
+    public Location getLocation4() {
+        return location4;
+    }
+
+    public void setLocation1(Location location1) {
+        this.location1 = location1;
+    }
+
+    public void setLocation2(Location location2) {
+        this.location2 = location2;
+    }
+
+    public void setLocation3(Location location3) {
+        this.location3 = location3;
+    }
+
+    public List<Location> getLocationList() {
+        return locationList;
+    }
+
+    public void setLocation4(Location location4) {
+        this.location4 = location4;
+    }
 
     @Override
     public void eventRandomizer(Location location, Player player) {
@@ -24,11 +66,17 @@ public class EventServiceImpl implements EventServiceRepo {
         int randomInteger = getRandomIntFrom0To100();
 
         if (randomInteger <= location.getMonsterChance()) {
-            monsterEvent(player);
+            try {
+                monsterEvent(player, location);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } else if (randomInteger > location.getMonsterChance() && randomInteger <= (location.getMonsterChance() + location.getTreasureChance())) {
             treasureEvent(player);
-        } else {
+        } else if (randomInteger > (location.getMonsterChance() + location.getTreasureChance()) && randomInteger <= (location.getMonsterChance() + location.getTreasureChance() + location.getEncounterChance())){
             encounterEvent(player);
+        } else {
+            gameViewService.nothingHappens();
         }
 
     }
@@ -48,8 +96,8 @@ public class EventServiceImpl implements EventServiceRepo {
     public void playerLosesGame(Player player) {
         gameViewService.youLose();
         player.setHp(100);
-        player.setMinAttack(2);
-        player.setMaxAttack(3);
+        player.setMinAttack(3);
+        player.setMaxAttack(5);
         player.setArmor(0);
         player.setMaxHp(100);
         player.setCriticalChance(1);
@@ -65,7 +113,7 @@ public class EventServiceImpl implements EventServiceRepo {
     }
 
     @Override
-    public void fight(Player player, Monster monster) {
+    public void fight(Player player, Monster monster) throws InterruptedException {
 
         if (isMissedAttack(player.getAccuracy(), monster.getDodge())) {
             gameViewService.printMissedPlayerAttack(player);
@@ -93,6 +141,7 @@ public class EventServiceImpl implements EventServiceRepo {
             }
             gameViewService.printPlayerHp(player);
         }
+        Thread.sleep(1000);
     }
 
     public int calculateCriticalDamage(int damage, int criticalDamageChance, double criticalDmgMultiplayer) {
@@ -141,10 +190,10 @@ public class EventServiceImpl implements EventServiceRepo {
         gameViewService.printPlayerStats(player);
     }
 
-    public void monsterEvent(Player player) {
+    public void monsterEvent(Player player, Location location) throws InterruptedException {
         System.out.println("MonsterEvent");
         List<Monster> monsterList = monsterRepo.ReadMonstersFromCSV();
-        Monster monster = monsterRepo.getRandomMonster(monsterList);
+        Monster monster = monsterRepo.getRandomMonsterFromLocation(monsterList, location);
         gameViewService.printAttackingMonsterName(monster);
 
         while (player.getHp() > 0 && monster.getHp() > 0) {
@@ -204,6 +253,9 @@ public class EventServiceImpl implements EventServiceRepo {
 
     public void levelUp(Player player) {
         gameViewService.youHaveGainedALevel(player);
+        player.setMaxHp(player.getMaxHp() + 10);
+        player.setMinAttack(player.getMinAttack() + 1);
+        player.setMaxAttack(player.getMaxAttack() + 1);
         Scanner scanner = new Scanner(System.in);
         int playerChoice = scanner.nextInt();
         if (playerChoice == 1) {
@@ -223,4 +275,5 @@ public class EventServiceImpl implements EventServiceRepo {
         }
 
     }
+
 }

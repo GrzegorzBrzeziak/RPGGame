@@ -2,6 +2,7 @@ package pl.sda.repository;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import pl.sda.model.Location;
 import pl.sda.model.Monster;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MonsterRepoImpl implements MonsterRepo {
 
@@ -49,11 +51,25 @@ public class MonsterRepoImpl implements MonsterRepo {
     }
 
     @Override
-    public Monster getRandomMonster(List<Monster> monstersList) {
-        Random rand = new Random();
+    public Monster getRandomMonsterFromLocation(List<Monster> monstersList, Location location) {
 
-        int randomIndex = rand.nextInt(monstersList.size());
+        int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, 101);
+        int monsterId = 0;
 
-        return monstersList.get(randomIndex);
+        if (boundedRandomValue <= location.getMonsterId1Chance()){
+            monsterId = location.getMonsterId1();
+        } else if(boundedRandomValue > location.getMonsterId1Chance() && boundedRandomValue <= (location.getMonsterId1Chance() + location.getMonsterId2Chance())){
+            monsterId = location.getMonsterId2();
+        } else if(boundedRandomValue > (location.getMonsterId1Chance() + location.getMonsterId2Chance()) && boundedRandomValue <= (location.getMonsterId1Chance() + location.getMonsterId2Chance() + location.getMonsterId3Chance())){
+            monsterId = location.getMonsterId3();
+        } else if(boundedRandomValue > (location.getMonsterId1Chance() + location.getMonsterId2Chance() + location.getMonsterId3Chance()) && boundedRandomValue <= (location.getMonsterId1Chance() + location.getMonsterId2Chance() + location.getMonsterId3Chance() + location.getMonsterId4Chance())){
+            monsterId = location.getMonsterId4();
+        }
+        for (Monster monster : monstersList) {
+            if (monster.getId() == monsterId) {
+                return monster;
+            }
+        }        
+        return null;
     }
 }

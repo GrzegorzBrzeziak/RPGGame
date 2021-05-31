@@ -11,17 +11,21 @@ public class Controller {
     private ConsoleView view;
     private final Scanner input = new Scanner(System.in);
     PlayerRepoImpl playerRepo = new PlayerRepoImpl();
-    private Player player;
+    private Player player = playerRepo.createNewPlayer();
     GameController gameController = new GameController();
 
-    public Controller() {
+    public void initialize() {
         Menu menu = new Menu();
         view = new ConsoleView(menu, System.in);
         runner = new ConsoleRunner(view);
+
+
+
+
         menu.addMenuItem(new MenuItem(
                 "Zacznij grę",
                 () -> {
-                    player = playerRepo.createNewPlayer();
+                    gameController.initialize();
                     gameController.start();
                 }
         ));
@@ -30,6 +34,7 @@ public class Controller {
                 "Załaduj grę",
                 () -> {
                     player = playerRepo.loadPlayer();
+                    gameController.initialize();
                     gameController.start();
                 }
         ));

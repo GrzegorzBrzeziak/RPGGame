@@ -8,7 +8,6 @@ import pl.sda.view.core.*;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class GameController {
@@ -17,53 +16,48 @@ public class GameController {
     private final Scanner input = new Scanner(System.in);
 
 
-    public GameController() {
-        LocationRepoImpl impl = new LocationRepoImpl();
-        List<Location> locationList = impl.ReadLocationsFromCSV();
-        AtomicReference<Location> location1 = new AtomicReference<>(impl.getRandomLocation(locationList));
-        AtomicReference<Location> location2 = new AtomicReference<>(impl.getRandomLocation(locationList));
-        AtomicReference<Location> location3 = new AtomicReference<>(impl.getRandomLocation(locationList));
-        AtomicReference<Location> location4 = new AtomicReference<>(impl.getRandomLocation(locationList));
+    public void initialize() {
         EventServiceImpl eventService = new EventServiceImpl();
         Game game = new Game();
         gameView = new GameConsoleView(game, System.in);
         gameRunner = new ConsoleGameRunner(gameView);
+        LocationRepoImpl impl = new LocationRepoImpl();
 
         game.addGameItem(new GameItem(1,
-                "Idź do: " + location1.get().getLocationName(),
+                "Idź do: " + eventService.getLocation1().getLocationName() + " " +  eventService.getLocation1().getLocationDifficulty(),
                 () -> {
-                    eventService.eventRandomizer(location1.get(), GameApp.controller.getPlayer());
-                    location1.set(impl.getRandomLocation(locationList));
-                    game.getItemByID(1).setLabel("Idź do: " + location1.get().getLocationName());
+                    eventService.eventRandomizer(eventService.getLocation1(), GameApp.controller.getPlayer());
+                    eventService.setLocation1(impl.getRandomLocationBoundedByPlayerLevel(eventService.getLocationList(), GameApp.controller.getPlayer()));
+                    game.getItemByID(1).setLabel("Idź do: " + eventService.getLocation1().getLocationName() + " " +  eventService.getLocation1().getLocationDifficulty());
                 }
         ));
         game.addGameItem(new GameItem(2,
-                "Idź do: " + location2.get().getLocationName(),
+                "Idź do: " + eventService.getLocation2().getLocationName() + " " +  eventService.getLocation2().getLocationDifficulty(),
                 () -> {
-                    eventService.eventRandomizer(location2.get(), GameApp.controller.getPlayer());
-                    location2.set(impl.getRandomLocation(locationList));
-                    game.getItemByID(2).setLabel("Idź do: " + location2.get().getLocationName());
+                    eventService.eventRandomizer(eventService.getLocation2(), GameApp.controller.getPlayer());
+                    eventService.setLocation2(impl.getRandomLocationBoundedByPlayerLevel(eventService.getLocationList(), GameApp.controller.getPlayer()));
+                    game.getItemByID(2).setLabel("Idź do: " + eventService.getLocation2().getLocationName()+ " " +  eventService.getLocation2().getLocationDifficulty());
                 }
         ));
 
 
         game.addGameItem(new GameItem(3,
-                "Idź do: " + location3.get().getLocationName(),
+                "Idź do: " + eventService.getLocation3().getLocationName() + " " +  eventService.getLocation3().getLocationDifficulty(),
                 () -> {
-                    eventService.eventRandomizer(location3.get(), GameApp.controller.getPlayer());
-                    location3.set(impl.getRandomLocation(locationList));
-                    game.getItemByID(3).setLabel("Idź do: " + location3.get().getLocationName());
+                    eventService.eventRandomizer(eventService.getLocation3(), GameApp.controller.getPlayer());
+                    eventService.setLocation3(impl.getRandomLocationBoundedByPlayerLevel(eventService.getLocationList(), GameApp.controller.getPlayer()));
+                    game.getItemByID(3).setLabel("Idź do: " + eventService.getLocation3().getLocationName()+ " " +  eventService.getLocation3().getLocationDifficulty());
                 }
 
         ));
 
 
         game.addGameItem(new GameItem(4,
-                "Idź do: " + location4.get().getLocationName(),
+                "Idź do: " + eventService.getLocation4().getLocationName()+ " " +  eventService.getLocation4().getLocationDifficulty(),
                 () -> {
-                    eventService.eventRandomizer(location4.get(), GameApp.controller.getPlayer());
-                    location4.set(impl.getRandomLocation(locationList));
-                    game.getItemByID(4).setLabel("Idź do: " + location4.get().getLocationName());
+                    eventService.eventRandomizer(eventService.getLocation4(), GameApp.controller.getPlayer());
+                    eventService.setLocation4(impl.getRandomLocationBoundedByPlayerLevel(eventService.getLocationList(), GameApp.controller.getPlayer()));
+                    game.getItemByID(4).setLabel("Idź do: " + eventService.getLocation4().getLocationName()+ " " +  eventService.getLocation4().getLocationDifficulty());
                 }
         ));
 

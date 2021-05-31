@@ -3,6 +3,7 @@ package pl.sda.repository;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import pl.sda.model.Location;
+import pl.sda.model.Player;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -39,7 +40,7 @@ public class LocationRepoImpl implements LocationRepo {
 
         while (csvUserIterator.hasNext()) {
             Location location = csvUserIterator.next();
-            locationList.add(new Location(location.getId(), location.getLocationName(), location.getMonsterChance(), location.getTreasureChance(), location.getEncounterChance()));
+            locationList.add(new Location(location.getId(), location.getLocationName(), location.getMonsterChance(), location.getTreasureChance(), location.getEncounterChance(), location.getLocationDifficulty(), location.getMonsterId1(), location.getMonsterId1Chance(), location.getMonsterId2(), location.getMonsterId2Chance(), location.getMonsterId3(), location.getMonsterId3Chance(), location.getMonsterId4(), location.getMonsterId4Chance()));
         }
 
 
@@ -53,12 +54,20 @@ public class LocationRepoImpl implements LocationRepo {
 
 
     @Override
-    public Location getRandomLocation(List<Location> locationList) {
+    public Location getRandomLocationBoundedByPlayerLevel(List<Location> locationList, Player player) {
 
         int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, locationList.size());
 
+        while (true){
+            if((player.getPlayerLevel() + 2) >= locationList.get(boundedRandomValue).getLocationDifficulty()) {
+                break;
+            } else{
+                boundedRandomValue = ThreadLocalRandom.current().nextInt(0, locationList.size());
+            }
+        }
+
         Location randomLocation = locationList.get(boundedRandomValue);
 
-        return new Location(randomLocation.getId(), randomLocation.getLocationName(), randomLocation.getMonsterChance(), randomLocation.getTreasureChance(), randomLocation.getEncounterChance());
+        return new Location(randomLocation.getId(), randomLocation.getLocationName(), randomLocation.getMonsterChance(), randomLocation.getTreasureChance(), randomLocation.getEncounterChance(), randomLocation.getLocationDifficulty(), randomLocation.getMonsterId1(),randomLocation.getMonsterId1Chance(),randomLocation.getMonsterId2(),randomLocation.getMonsterId2Chance(),randomLocation.getMonsterId3(),randomLocation.getMonsterId3Chance(),randomLocation.getMonsterId4(),randomLocation.getMonsterId4Chance());
     }
 }

@@ -8,7 +8,7 @@ public interface EventServiceRepo {
     int getRandomIntFrom0To100();
     int getRandomDamageValue(int dmgMin, int dmgMax );
     void playerLosesGame(Player player);
-    void fight(Player player, Monster monster);
+    void fight(Player player, Monster monster) throws InterruptedException;
 
 
 

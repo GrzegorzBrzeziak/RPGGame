@@ -27,7 +27,7 @@ public class PlayerRepoImpl implements PlayerRepo{
 
     @Override
     public Player createNewPlayer() {
-        return new Player(100, 2,3, 0,100,1,2,80,0,0,0);
+        return new Player(100, 3,5, 0,100,1,2,80,0,0,0);
     }
 
     @Override
