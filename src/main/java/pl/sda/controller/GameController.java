@@ -17,7 +17,6 @@ public class GameController {
     private final Scanner input = new Scanner(System.in);
 
 
-
     public GameController() {
         LocationRepoImpl impl = new LocationRepoImpl();
         List<Location> locationList = impl.ReadLocationsFromCSV();
@@ -48,25 +47,25 @@ public class GameController {
         ));
 
 
-            game.addGameItem(new GameItem(3,
-                    "Idź do: " + location3.get().getLocationName(),
-                    () -> {
-                        eventService.eventRandomizer(location3.get(), GameApp.controller.getPlayer());
-                        location3.set(impl.getRandomLocation(locationList));
-                        game.getItemByID(3).setLabel("Idź do: " + location3.get().getLocationName());
-                    }
+        game.addGameItem(new GameItem(3,
+                "Idź do: " + location3.get().getLocationName(),
+                () -> {
+                    eventService.eventRandomizer(location3.get(), GameApp.controller.getPlayer());
+                    location3.set(impl.getRandomLocation(locationList));
+                    game.getItemByID(3).setLabel("Idź do: " + location3.get().getLocationName());
+                }
 
-            ));
+        ));
 
 
-            game.addGameItem(new GameItem(4,
-                    "Idź do: " + location4.get().getLocationName(),
-                    () -> {
-                        eventService.eventRandomizer(location4.get(), GameApp.controller.getPlayer());
-                        location4.set(impl.getRandomLocation(locationList));
-                        game.getItemByID(4).setLabel("Idź do: " + location4.get().getLocationName());
-                    }
-            ));
+        game.addGameItem(new GameItem(4,
+                "Idź do: " + location4.get().getLocationName(),
+                () -> {
+                    eventService.eventRandomizer(location4.get(), GameApp.controller.getPlayer());
+                    location4.set(impl.getRandomLocation(locationList));
+                    game.getItemByID(4).setLabel("Idź do: " + location4.get().getLocationName());
+                }
+        ));
 
 
         game.addGameItem(new GameItem(5,
@@ -78,6 +77,7 @@ public class GameController {
     }
 
     public void start() {
+
         gameRunner.openGameLoop();
         gameRunner.runGameLoop();
     }

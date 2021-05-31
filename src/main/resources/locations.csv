@@ -4,3 +4,19 @@ id,name,monsterChance,treasureChance,encounterChance
 3,Polana,60,10,30
 4,Las,75,25,00
 5,Wioska,00,10,90
+6,Mokradła,80,05,15
+7,Pustynia,70,25,05
+8,Lochy,70,00,30
+9,Miasto,00,10,90
+10,Przełęcz,90,5,5
+11,Skaliste góry,85,10,5
+12,Kamieniołom,25,35,40
+13,Wyspa,05,80,15
+14,Wybrzeże,50,15,35
+15,Cmantarzysko,80,15,05
+16,Opuszczona kopalnia,10,80,10
+17,Stary magazyn,50,30,20
+18,Wąwóz,50,20,30
+19,Zielona Dolina,20,10,70
+20,Kryształowa Jaskinia,80,10,10
+21,Czerwony Kanion,50,20,30

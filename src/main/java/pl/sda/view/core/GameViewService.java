@@ -60,11 +60,11 @@ public class GameViewService {
     }
 
     public void printFoundTreasureGetAttack(Treasure treasure) {
-        System.out.println("Zdobywasz: " + treasure.getArmor() + " pancerza");
+        System.out.println("Zdobywasz: " + treasure.getAttack() + " ataku");
     }
 
     public void printFoundTreasureGetArmor(Treasure treasure) {
-        System.out.println("Zdobywasz: " + treasure.getAttack() + " ataku");
+        System.out.println("Zdobywasz: " + treasure.getArmor() + " pancerza");
     }
 
     public void printFoundTreasureGetMaxHP(Treasure treasure) {

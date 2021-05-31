@@ -30,7 +30,6 @@ public class Controller {
                 "Załaduj grę",
                 () -> {
                     player = playerRepo.loadPlayer();
-
                     gameController.start();
                 }
         ));
