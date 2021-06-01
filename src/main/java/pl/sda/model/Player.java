@@ -25,6 +25,14 @@ public class Player {
     private int xp;
     @CsvBindByName
     private int playerLevel;
+//    @CsvBindByName
+//    private boolean isHeadAccessoryWorn;
+//    @CsvBindByName
+//    private boolean isTorsoAccessoryWorn;
+//    @CsvBindByName
+//    private boolean isHandAccessoryWorn;
+//    @CsvBindByName
+//    private boolean isFootAccessoryWorn;
 
 
     public int getHp() {

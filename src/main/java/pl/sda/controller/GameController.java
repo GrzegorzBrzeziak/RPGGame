@@ -24,40 +24,40 @@ public class GameController {
         LocationRepoImpl impl = new LocationRepoImpl();
 
         game.addGameItem(new GameItem(1,
-                "Idź do: " + eventService.getLocation1().getLocationName() + " " +  eventService.getLocation1().getLocationDifficulty(),
+                "Idź do: " + eventService.getLocation1().getLocationName() + " ,poziom trudności: " +  eventService.getLocation1().getLocationDifficulty(),
                 () -> {
                     eventService.eventRandomizer(eventService.getLocation1(), GameApp.controller.getPlayer());
                     eventService.setLocation1(impl.getRandomLocationBoundedByPlayerLevel(eventService.getLocationList(), GameApp.controller.getPlayer()));
-                    game.getItemByID(1).setLabel("Idź do: " + eventService.getLocation1().getLocationName() + " " +  eventService.getLocation1().getLocationDifficulty());
+                    game.getItemByID(1).setLabel("Idź do: " + eventService.getLocation1().getLocationName() + " ,poziom trudności: " +  eventService.getLocation1().getLocationDifficulty());
                 }
         ));
         game.addGameItem(new GameItem(2,
-                "Idź do: " + eventService.getLocation2().getLocationName() + " " +  eventService.getLocation2().getLocationDifficulty(),
+                "Idź do: " + eventService.getLocation2().getLocationName() + " ,poziom trudności: " +  eventService.getLocation2().getLocationDifficulty(),
                 () -> {
                     eventService.eventRandomizer(eventService.getLocation2(), GameApp.controller.getPlayer());
                     eventService.setLocation2(impl.getRandomLocationBoundedByPlayerLevel(eventService.getLocationList(), GameApp.controller.getPlayer()));
-                    game.getItemByID(2).setLabel("Idź do: " + eventService.getLocation2().getLocationName()+ " " +  eventService.getLocation2().getLocationDifficulty());
+                    game.getItemByID(2).setLabel("Idź do: " + eventService.getLocation2().getLocationName()+ " ,poziom trudności: " +  eventService.getLocation2().getLocationDifficulty());
                 }
         ));
 
 
         game.addGameItem(new GameItem(3,
-                "Idź do: " + eventService.getLocation3().getLocationName() + " " +  eventService.getLocation3().getLocationDifficulty(),
+                "Idź do: " + eventService.getLocation3().getLocationName() + " ,poziom trudności: " +  eventService.getLocation3().getLocationDifficulty(),
                 () -> {
                     eventService.eventRandomizer(eventService.getLocation3(), GameApp.controller.getPlayer());
                     eventService.setLocation3(impl.getRandomLocationBoundedByPlayerLevel(eventService.getLocationList(), GameApp.controller.getPlayer()));
-                    game.getItemByID(3).setLabel("Idź do: " + eventService.getLocation3().getLocationName()+ " " +  eventService.getLocation3().getLocationDifficulty());
+                    game.getItemByID(3).setLabel("Idź do: " + eventService.getLocation3().getLocationName()+ " ,poziom trudności: " +  eventService.getLocation3().getLocationDifficulty());
                 }
 
         ));
 
 
         game.addGameItem(new GameItem(4,
-                "Idź do: " + eventService.getLocation4().getLocationName()+ " " +  eventService.getLocation4().getLocationDifficulty(),
+                "Idź do: " + eventService.getLocation4().getLocationName()+ " ,poziom trudności: " +  eventService.getLocation4().getLocationDifficulty(),
                 () -> {
                     eventService.eventRandomizer(eventService.getLocation4(), GameApp.controller.getPlayer());
                     eventService.setLocation4(impl.getRandomLocationBoundedByPlayerLevel(eventService.getLocationList(), GameApp.controller.getPlayer()));
-                    game.getItemByID(4).setLabel("Idź do: " + eventService.getLocation4().getLocationName()+ " " +  eventService.getLocation4().getLocationDifficulty());
+                    game.getItemByID(4).setLabel("Idź do: " + eventService.getLocation4().getLocationName()+ " ,poziom trudności: " +  eventService.getLocation4().getLocationDifficulty());
                 }
         ));
 
